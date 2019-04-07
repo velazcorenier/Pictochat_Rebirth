@@ -12,7 +12,7 @@ def getAllPostMessages():
         return jsonify(Error="No Message found"), 404
     result = []
     for row in rows:
-        result.append(Dict.user_dict(row))
+        result.append(Dict.post_dict(row))
     return jsonify(Post_Messages=result)
 
 ###################### Reaction HANDLER ############################

@@ -65,7 +65,6 @@ def post_dict(chatPost):
     post["chat_id"] = chatPost[4]
     return post
 
-
 def reaction_dict(postReaction):
     # user_id, post_id, react_date, react_time, react_type
     reaction = {}
@@ -111,3 +110,5 @@ def reply_dict(postReply):
     reply["user_id"] = postReply[3]
     reply["post_id"] = postReply[4]
     return reply
+
+

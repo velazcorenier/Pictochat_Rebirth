@@ -14,7 +14,7 @@ class PostDAO:
 
     def getAllPostMessages(self):
         cursor = self.conn.cursor()
-        query = "select post_id, post_msg, post_date, user_id from Post;"
+        query = "select * from Post;"
         cursor.execute(query)
         result = []
         for row in cursor:
