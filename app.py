@@ -16,7 +16,7 @@ def homeforApp():
 
 ###################### Users Routes ############################
 
-@app.route('/Pictochat/users', methods=['GET', 'POST'])
+@app.route('/Pictochat/users/all', methods=['GET', 'POST'])
 def getAllUsers():
     if request.method == 'GET':
         result = User.getAllUsers()
@@ -35,7 +35,7 @@ def getUserByID(user_id):
     else:
         return jsonify(Error="Method not allowed"), 404
 
-@app.route('/Pictochat/users/post/reaction/liked/<int:post_id>', methods=['GET'])
+@app.route('/Pictochat/post/<int:post_id>/likes', methods=['GET'])
 def getUsersWhoLikedPost(post_id):
     if request.method == 'GET':
         result = User.getUsersWhoLikedPost(post_id)
@@ -44,7 +44,7 @@ def getUsersWhoLikedPost(post_id):
         return jsonify(Error="Method not allowed"), 404
 
 
-@app.route('/Pictochat/users/post/reaction/disliked/<int:post_id>', methods=['GET'])
+@app.route('/Pictochat/post/<int:post_id>/dislikes', methods=['GET'])
 def getUsersWhoDislikedPost(post_id):
     if request.method == 'GET':
         result = User.getUsersWhoDislikedPost(post_id)
@@ -53,7 +53,7 @@ def getUsersWhoDislikedPost(post_id):
         return jsonify(Error="Method not allowed"), 404
 
 
-@app.route('/Pictochat/users/chat/<int:chat_id>', methods=['GET'])
+@app.route('/Pictochat/chat/<int:chat_id>/users', methods=['GET'])
 def getUsersByChatID(chat_id):
     if request.method == 'GET':
         result = User.getUsersByChatID(chat_id)
@@ -62,7 +62,7 @@ def getUsersByChatID(chat_id):
         return jsonify(Error="Method not allowed"), 404
 
 
-@app.route('/Pictochat/users/chat/admin/<int:chat_id>', methods=['GET'])
+@app.route('/Pictochat/chat/<int:chat_id>/admin', methods=['GET'])
 def getAdminByChatID(chat_id):
     if request.method == 'GET':
         result = User.getAdminByChatID(chat_id)
@@ -72,7 +72,7 @@ def getAdminByChatID(chat_id):
 
 ###################### Credential Routes ######################
 
-@app.route('/Pictochat/credentials', methods=['GET'])
+@app.route('/Pictochat/credentials/all', methods=['GET'])
 def getCredentials():
     if request.method == 'GET':
         result = User.getAllCredentials()
@@ -91,7 +91,7 @@ def getUserCredentialByID(user_id):
 
 ###################### Activity Routes ########################
 
-@app.route('/Pictochat/activity', methods=['GET'])
+@app.route('/Pictochat/activity/all', methods=['GET'])
 def getAllActivities():
     if request.method == 'GET':
         result = User.getAllActivity()
@@ -110,7 +110,7 @@ def getUserActivityByID(user_id):
 
 ###################### Contacts Routes ######################
 
-@app.route('/Pictochat/contacts/user/<int:user_id>', methods=['GET', 'POST'])
+@app.route('/Pictochat/user/<int:user_id>/contacts', methods=['GET', 'POST'])
 def getUserContactsByID(user_id):
     if request.method == 'GET':
         result = User.getUserContactsByID(user_id)
@@ -123,7 +123,7 @@ def getUserContactsByID(user_id):
 
 ###################### Chat Routes ############################
 
-@app.route('/Pictochat/chats', methods=['GET', 'POST'])
+@app.route('/Pictochat/chats/all', methods=['GET', 'POST'])
 def getAllChats():
     if request.method == 'GET':
         result = Chat.getAllChats()
@@ -149,7 +149,7 @@ def getPostByChatID(chat_id):
 
 ###################### Post Routes ########################
 
-@app.route('/Pictochat/posts', methods=['GET'])
+@app.route('/Pictochat/posts/all', methods=['GET'])
 def getAllPosts():
     if request.method == 'GET':
         result = Post.getAllPost()
@@ -185,7 +185,7 @@ def getAllPosts():
 
 ###################### Reaction Routes ############################
 
-@app.route('/Pictochat/reaction/likes/count/post/<int:post_id>', methods=['GET'])
+@app.route('/Pictochat/post/<int:post_id>/count/likes', methods=['GET'])
 def getPostLikesCountByID(post_id):
     if request.method == 'GET':
         result = Post.getPostLikesCountByID(post_id)
@@ -194,7 +194,7 @@ def getPostLikesCountByID(post_id):
         return jsonify(Error="Method not allowed"), 404
 
 
-@app.route('/Pictochat/reaction/dislikes/count/post/<int:post_id>', methods=['GET'])
+@app.route('/Pictochat/post/<int:post_id>/count/dislikes', methods=['GET'])
 def getPostDislikesCountByID(post_id):
     if request.method == 'GET':
         result = Post.getPostDislikesCountByID(post_id)
@@ -204,7 +204,7 @@ def getPostDislikesCountByID(post_id):
 
 ###################### Media Routes ######################
 
-@app.route('/Pictochat/media/<int:post_id>', methods=['GET', 'POST'])
+@app.route('/Pictochat/post/<int:post_id>/media', methods=['GET', 'POST'])
 def getMediaByPostID(post_id):
     if request.method == 'GET':
         result = Post.getMediaByPostID(post_id)
