@@ -11,3 +11,12 @@ class ChatDAO:
 
 
 ###################### Main DAO ########################
+
+    def getAllChats(self):
+        cursor = self.conn.cursor()
+        query = "select * from chat;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result

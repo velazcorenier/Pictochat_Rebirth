@@ -26,3 +26,12 @@ http://127.0.0.1:5000/Pictochat/users/chat/2
 
 Admin of a chatgroup
 http://127.0.0.1:5000/Pictochat/users/chat/admin/5
+
+All users in the system
+http://127.0.0.1:5000/Pictochat/users
+
+All chat groups in the system
+http://127.0.0.1:5000/Pictochat/chats
+
+Get User by ID
+http://127.0.0.1:5000/Pictochat/users/1

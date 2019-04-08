@@ -12,6 +12,22 @@ class UserDAO:
 
 ###################### Read ########################
 
+    def getAllUsers(self):
+        cursor = self.conn.cursor()
+        query = "select * from users;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getUserInfo(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select * from users where user_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
+
     def getUserContactsByID(self, user_id):
         cursor = self.conn.cursor()
         query = "select C.contact_id, U.first_name, U.last_name from ContactList as C, users as U where C.user_id = %s " \

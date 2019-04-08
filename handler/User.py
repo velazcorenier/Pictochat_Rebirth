@@ -6,6 +6,22 @@ dao = UserDAO()
 
 ###################### Main HANDLER ############################
 
+def getAllUsers():
+    result = dao.getAllUsers()
+    if not result:
+        return jsonify(Error ="No Users Found")
+    mapped_result = []
+    for row in result:
+        mapped_result.append(Dict.user_dict(row))
+    return jsonify(Users = mapped_result)
+
+def getUserInfo(user_id):
+    result = dao.getUserInfo(user_id)
+    if not result:
+        return jsonify(Error ="No User Found")
+    result = Dict.user_dict(result)
+    return jsonify(UserInfo = result)
+
 def getUserContactsByID(user_id):
     result = dao.getUserContactsByID(user_id)
     if not result:
