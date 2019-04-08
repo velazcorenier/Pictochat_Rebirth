@@ -59,6 +59,21 @@ def post_msg_chat_dict(postChatInfo):
     post_chat["last_name"] = postChatInfo[4]
     return post_chat
 
+#Dict use for UI
+def post_msg_chat_dict_UI(postChatInfo):
+    # chat_id, chat_name, admin
+    post_chat_UI = {}
+    post_chat_UI["post_id"] = postChatInfo[0]
+    post_chat_UI["post_msg"] = postChatInfo[1]
+    post_chat_UI["post_date"] = postChatInfo[2]
+    post_chat_UI["user_id"] = postChatInfo[3]
+    post_chat_UI["username"] = postChatInfo[4]
+    post_chat_UI["likes"] = postChatInfo[5]
+    post_chat_UI["dislikes"] = postChatInfo[6]
+    post_chat_UI["chat_name"] = postChatInfo[7]
+    post_chat_UI["location"] = postChatInfo[8]
+    return post_chat_UI
+
 def participants_dict(chatParticipant):
     # chat_id, user_id
     participant = {}
@@ -122,11 +137,10 @@ def hashtag_dict(postHashtag):
     return hashtag
 
 def dashboard_hashtag_dict(postHashtag):
-    # hashtag_id, hashtag_text, post_id
+    # hashtag_text
     hashtag = {}
-    hashtag["hashtag_id"] = postHashtag[0]
-    hashtag["hashtag_text"] = postHashtag[1]
-    hashtag["post_id"] = postHashtag[2]
+    hashtag["hashtag_text"] = postHashtag[0]
+    hashtag["Total"] = postHashtag[1]
     return hashtag
 
 def media_dict(postMedia):

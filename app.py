@@ -158,6 +158,17 @@ def getPostMessagesByChatID(chat_id):
     else:
         return jsonify(Error="Method not allowed"), 404
 
+@app.route('/Pictochat/post/UI/<int:post_id>', methods=['GET', 'POST'])
+def getPostByIDForUI(post_id):
+    if request.method == 'GET':
+        result = Post.getPostByIDForUI(post_id)
+        return result
+    elif request.method == 'POST':
+        result = Post.insertMessage(request.json)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
 ###################### Hashtag Routes ######################
 
 ###################### Reaction Routes ############################
@@ -180,6 +191,17 @@ def getPostDislikesCountByID(post_id):
         return jsonify(Error="Method not allowed"), 404
 
 ###################### Media Routes ######################
+
+@app.route('/Pictochat/media/<int:post_id>', methods=['GET', 'POST'])
+def getMediaByPostID(post_id):
+    if request.method == 'GET':
+        result = Post.getMediaByPostID(post_id)
+        return result
+    elif request.method == 'POST':
+        result = Post.insertMedia(request.json)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
 
 ###################### Reply Routes ########################
 
