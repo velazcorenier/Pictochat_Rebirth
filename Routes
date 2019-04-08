@@ -1,0 +1,28 @@
+Routes:
+
+Message in System:
+http://127.0.0.1:5000/Pictochat/post/messages
+
+Count of likes of Post X
+http://127.0.0.1:5000/Pictochat/reaction/likes/count/post/1
+
+Users who liked Post X
+http://127.0.0.1:5000/Pictochat/users/post/reaction/liked/1
+
+Count of dislikes of Post X
+http://127.0.0.1:5000/Pictochat/reaction/dislikes/count/post/4
+
+Users who disliked Post X
+http://127.0.0.1:5000/Pictochat/users/post/reaction/disliked/4
+
+Contacts of User X
+http://127.0.0.1:5000/Pictochat/contacts/user/1
+
+List of messages of a chat group
+http://127.0.0.1:5000/Pictochat/post/messages/1
+
+Users subscribed to a chat group
+http://127.0.0.1:5000/Pictochat/users/chat/2
+
+Admin of a chatgroup
+http://127.0.0.1:5000/Pictochat/users/chat/admin/5

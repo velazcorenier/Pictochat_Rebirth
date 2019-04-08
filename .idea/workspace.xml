@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="42b4c77f-23d4-4854-96c1-1cb5ca954f49" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/PostDAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/dao/PostDAO.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dao/UserDAO.py" beforeDir="false" afterPath="$PROJECT_DIR$/dao/UserDAO.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/DictBuilder.py" beforeDir="false" afterPath="$PROJECT_DIR$/handler/DictBuilder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/Post.py" beforeDir="false" afterPath="$PROJECT_DIR$/handler/Post.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/User.py" beforeDir="false" afterPath="$PROJECT_DIR$/handler/User.py" afterDir="false" />
-    </list>
+    <list default="true" id="42b4c77f-23d4-4854-96c1-1cb5ca954f49" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="77" column="12" lean-forward="true" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="36" />
+            <state relative-caret-position="-6">
+              <caret line="73" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="36" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -158,10 +151,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-199" />
-    <option name="y" value="63" />
-    <option name="width" value="1390" />
-    <option name="height" value="831" />
+    <option name="x" value="544" />
+    <option name="y" value="109" />
+    <option name="width" value="852" />
+    <option name="height" value="421" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -275,12 +268,12 @@
       <option name="presentableId" value="Default" />
       <updated>1554181532120</updated>
       <workItem from="1554181533404" duration="6480000" />
-      <workItem from="1554261652437" duration="26600000" />
+      <workItem from="1554261652437" duration="27174000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33080000" />
+    <option name="totallyTimeSpent" value="33654000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -293,22 +286,23 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1920" height="1053" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.2534685" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49733192" visible="true" weight="0.31862217" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49733192" weight="0.31862217" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928263" weight="0.32933334" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928263" weight="0.32831" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5026681" side_tool="true" weight="0.32831" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49786553" weight="0.26435247" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.49786553" visible="true" weight="0.26372445" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -447,8 +441,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="77" column="12" lean-forward="true" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="36" />
+        <state relative-caret-position="-6">
+          <caret line="73" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="36" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
