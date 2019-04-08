@@ -15,6 +15,17 @@ def getAllPostMessages():
         result.append(Dict.post_dict(row))
     return jsonify(Post_Messages=result)
 
+def getPostMessagesByChatID(chat_id):
+    # This method will return the messages in a determined  chat
+    chat_post_messages = dao.getPostMessagesByChatID(chat_id)
+    if not chat_post_messages:
+        return jsonify(Error="No Messages Found")
+    result_post_messages = []
+    for row in chat_post_messages:
+        result = Dict.post_msg_chat_dict(row)
+        result_post_messages.append(result)
+    return jsonify(PostMessages = result_post_messages)
+
 ###################### Reaction HANDLER ############################
 
 
@@ -23,7 +34,8 @@ def getPostLikesCountByID(post_id):
     if not result:
         return jsonify(Error="No Like found"), 404
     map_result = dict()
-    map_result["likes"] = result[0][0]
+    map_result["post_id"] = result[0][0]
+    map_result["likes"] = result[0][1]
     return jsonify(PostLikes=map_result)
 
 
@@ -32,7 +44,8 @@ def getPostDislikesCountByID(post_id):
     if not result:
         return jsonify(Error="No Dislike found"), 404
     map_result = dict()
-    map_result["dislikes"] = result[0][0]
+    map_result["post_id"] = result[0][0]
+    map_result["dislikes"] = result[0][1]
     return jsonify(PostDislikes=map_result)
 
 

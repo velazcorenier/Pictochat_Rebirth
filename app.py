@@ -33,11 +33,41 @@ def getUsersWhoDislikedPost(post_id):
     else:
         return jsonify(Error="Method not allowed"), 404
 
+
+@app.route('/Pictochat/users/chat/<int:chat_id>', methods=['GET'])
+def getUsersByChatID(chat_id):
+    if request.method == 'GET':
+        result = User.getUsersByChatID(chat_id)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
+@app.route('/Pictochat/users/chat/admin/<int:chat_id>', methods=['GET'])
+def getAdminByChatID(chat_id):
+    if request.method == 'GET':
+        result = User.getAdminByChatID(chat_id)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
 ###################### Credential Routes ######################
 
 ###################### Activity Routes ########################
 
-###################### Credential Routes ######################
+###################### Contacts Routes ######################
+
+@app.route('/Pictochat/contacts/user/<int:user_id>', methods=['GET', 'POST'])
+#WORKSS
+def getUserContactsByID(user_id):
+    if request.method == 'GET':
+        result = User.getUserContactsByID(user_id)
+        return result
+    elif request.method == 'POST':
+        result = User.addContact(request.json)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
 
 ###################### Chat Routes ############################
 
@@ -49,6 +79,18 @@ def getUsersWhoDislikedPost(post_id):
 def getAllPostMessages():
     if request.method == 'GET':
         result = Post.getAllPostMessages()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
+@app.route('/Pictochat/post/messages/<int:chat_id>', methods=['GET', 'POST'])
+def getPostMessagesByChatID(chat_id):
+    if request.method == 'GET':
+        result = Post.getPostMessagesByChatID(chat_id)
+        return result
+    elif request.method == 'POST':
+        result = Post.insertMessage(request.json)
         return result
     else:
         return jsonify(Error="Method not allowed"), 404

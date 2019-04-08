@@ -48,12 +48,39 @@ def chat_dict(chatInfo):
     chat["admin"] = chatInfo[2]
     return chat
 
+#Dict use for demo
+def post_msg_chat_dict(postChatInfo):
+    # chat_id, chat_name, admin
+    post_chat = {}
+    post_chat["post_id"] = postChatInfo[0]
+    post_chat["post_msg"] = postChatInfo[1]
+    post_chat["user_id"] = postChatInfo[2]
+    return post_chat
+
 def participants_dict(chatParticipant):
     # chat_id, user_id
     participant = {}
     participant["chat_id"] = chatParticipant[0]
     participant["user_id"] = chatParticipant[1]
     return participant
+
+#Dict use for demo
+def chat_participants_dict(chatParticipant):
+    # chat_id, user_id
+    chat_participants = {}
+    chat_participants["user_id"] = chatParticipant[0]
+    chat_participants["first_name"] = chatParticipant[1]
+    chat_participants["last_name"] = chatParticipant[2]
+    return chat_participants
+
+#Dict use for demo
+def chat_admin_dict(chatAdmin):
+    # chat_id, user_id
+    admin = {}
+    admin["admin"] = chatAdmin[0]
+    admin["first_name"] = chatAdmin[1]
+    admin["last_name"] = chatAdmin[2]
+    return admin
 
 def post_dict(chatPost):
     # post_id, post_msg, post_date, post_time, user_id, chat_id

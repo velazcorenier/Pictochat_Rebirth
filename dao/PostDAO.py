@@ -21,11 +21,20 @@ class PostDAO:
             result.append(row)
         return result
 
-###################### Reaction DAO ############################
+    def getPostMessagesByChatID(self, chat_id):
+        cursor = self.conn.cursor()
+        query = "select post_id, post_msg, user_id from Post natural inner join users where chat_id = %s;"
+        cursor.execute(query,(chat_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    ###################### Reaction DAO ############################
 
     def getPostLikesCountByID(self, post_id):
         cursor = self.conn.cursor()
-        query = "select count(*) from React where post_id = %s and react_type = 1;"
+        query = "select post_id, count(*) from React where post_id = %s and react_type = 1 group by post_id;"
         cursor.execute(query, (post_id,))
         result = []
         for row in cursor:
@@ -35,7 +44,7 @@ class PostDAO:
 
     def getPostDislikesCountByID(self, post_id):
         cursor = self.conn.cursor()
-        query = "select count(*) from React where post_id = %s and react_type = -1;"
+        query = "select post_id, count(*) from React where post_id = %s and react_type = -1 group by post_id;"
         cursor.execute(query, (post_id,))
         result = []
         for row in cursor:
