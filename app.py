@@ -134,6 +134,17 @@ def getAllChats():
     else:
         return jsonify(Error="Method not allowed"), 404
 
+@app.route('/Pictochat/chat/<int:chat_id>/posts', methods=['GET', 'POST'])
+def getPostByChatID(chat_id):
+    if request.method == 'GET':
+        result = Post.getPostByChatID(chat_id)
+        return result
+    elif request.method == 'POST':
+        result = Post.insertMessage(request.json)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
 ###################### Participant Routes ######################
 
 ###################### Post Routes ########################
@@ -158,16 +169,6 @@ def getAllPosts():
 #     else:
 #         return jsonify(Error="Method not allowed"), 404
 
-@app.route('/Pictochat/posts/<int:chat_id>', methods=['GET', 'POST'])
-def getPostByChatID(chat_id):
-    if request.method == 'GET':
-        result = Post.getPostByChatID(chat_id)
-        return result
-    elif request.method == 'POST':
-        result = Post.insertMessage(request.json)
-        return result
-    else:
-        return jsonify(Error="Method not allowed"), 404
 
 # @app.route('/Pictochat/post/UI/<int:post_id>', methods=['GET', 'POST'])
 # def getPostByIDForUI(chat_id):
