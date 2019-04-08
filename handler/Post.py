@@ -49,3 +49,13 @@ def getPostDislikesCountByID(post_id):
     return jsonify(PostDislikes=map_result)
 
 
+###################### Dashboard HANDLER ############################
+
+def getTrendingHashtags():
+    tophashtags = []
+    hashtags = dao.getTrendingHashtags()
+    for row in hashtags:
+        result = Dict.hashtag_dict(row)
+        print(result)
+        tophashtags.append(result)
+    return jsonify(Topics=tophashtags)

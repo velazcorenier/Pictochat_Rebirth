@@ -31,7 +31,7 @@ def contactList_dict(userContactList):
     contactList["contact_id"] = userContactList[1]
     return contactList
 
-#Dict use for demo
+#Dict used for demo
 def contacts_dict(userContact):
     # contact_id, first_name, last_name
     contacts = {}
@@ -55,6 +55,8 @@ def post_msg_chat_dict(postChatInfo):
     post_chat["post_id"] = postChatInfo[0]
     post_chat["post_msg"] = postChatInfo[1]
     post_chat["user_id"] = postChatInfo[2]
+    post_chat["first_name"] = postChatInfo[3]
+    post_chat["last_name"] = postChatInfo[4]
     return post_chat
 
 def participants_dict(chatParticipant):
@@ -64,7 +66,7 @@ def participants_dict(chatParticipant):
     participant["user_id"] = chatParticipant[1]
     return participant
 
-#Dict use for demo
+#Dict used for demo
 def chat_participants_dict(chatParticipant):
     # chat_id, user_id
     chat_participants = {}
@@ -73,7 +75,7 @@ def chat_participants_dict(chatParticipant):
     chat_participants["last_name"] = chatParticipant[2]
     return chat_participants
 
-#Dict use for demo
+#Dict used for demo
 def chat_admin_dict(chatAdmin):
     # chat_id, user_id
     admin = {}
@@ -101,7 +103,7 @@ def reaction_dict(postReaction):
     reaction["react_type"] = postReaction[2]
     return reaction
 
-#Dict use for demo
+#Dict used for demo
 def reaction_user_dict(joinReaction):
     # user_id, first_name, last_name, react_date
     reaction_user = {}
@@ -112,6 +114,14 @@ def reaction_user_dict(joinReaction):
     return reaction_user
 
 def hashtag_dict(postHashtag):
+    # hashtag_id, hashtag_text, post_id
+    hashtag = {}
+    hashtag["hashtag_id"] = postHashtag[0]
+    hashtag["hashtag_text"] = postHashtag[1]
+    hashtag["post_id"] = postHashtag[2]
+    return hashtag
+
+def dashboard_hashtag_dict(postHashtag):
     # hashtag_id, hashtag_text, post_id
     hashtag = {}
     hashtag["hashtag_id"] = postHashtag[0]

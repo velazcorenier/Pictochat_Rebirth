@@ -64,3 +64,42 @@ def getUsersWhoDislikedPost(post_id):
     for row in result:
         mapped_result.append(Dict.reaction_user_dict(row))
     return jsonify(UsersDislikedPost = mapped_result)
+
+###################### Credential HANDLER ############################
+
+def getAllCredentials():
+    result = dao.getAllCredentials()
+    if not result:
+        return jsonify(Error ="No Credentials Found")
+    mapped_result = []
+    for row in result:
+        mapped_result.append(Dict.credential_dict(row))
+    return jsonify(Credentials=mapped_result)
+
+
+def getUserCredentials(user_id):
+    result = dao.getUserCredentials(user_id)
+    if not result:
+        return jsonify(Error = "No Credentials Found")
+    result = Dict.credential_dict(result)
+    return jsonify(UserCredentials = result)
+
+###################### Activity HANDLER ############################
+
+def getAllActivity():
+    result = dao.getAllActivity()
+    if not result:
+        return jsonify(Error="No Activity Found")
+    mapped_result = []
+    for row in result:
+        mapped_result.append(Dict.activity_dict(row))
+    return jsonify(Activity=mapped_result)
+
+def getUserActivity(user_id):
+    result = dao.getUserActivity(user_id)
+    if not result:
+        return jsonify(Error = "No Activity Found")
+    mapped_result = []
+    for row in result:
+        mapped_result.append(Dict.activity_dict(row))
+    return jsonify(UserActivity = result)

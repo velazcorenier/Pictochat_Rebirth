@@ -72,7 +72,41 @@ def getAdminByChatID(chat_id):
 
 ###################### Credential Routes ######################
 
+@app.route('/Pictochat/credentials', methods=['GET'])
+def getCredentials():
+    if request.method == 'GET':
+        result = User.getAllCredentials()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
+@app.route('/Pictochat/credentials/user/<int:user_id>', methods=['GET'])
+def getUserCredentialByID(user_id):
+    if request.method == 'GET':
+        result = User.getUserCredentials(user_id)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
 ###################### Activity Routes ########################
+
+@app.route('/Pictochat/activity', methods=['GET'])
+def getAllActivities():
+    if request.method == 'GET':
+        result = User.getAllActivity()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
+@app.route('/Pictochat/activity/user/<int:user_id>', methods=['GET'])
+def getUserActivityByID(user_id):
+    if request.method == 'GET':
+        result = User.getUserActivity(user_id)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
 
 ###################### Contacts Routes ######################
 
@@ -148,6 +182,52 @@ def getPostDislikesCountByID(post_id):
 ###################### Media Routes ######################
 
 ###################### Reply Routes ########################
+
+###################### Dashboard Routes ########################
+
+
+@app.route('/Pictochat/dashboard/hashtags', methods=['GET'])
+def getTrendingHashtags():
+    if request.method == 'GET':
+        result = Post.getTrendingHashtags()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+@app.route('/Pictochat/dashboard/posts', methods=['GET'])
+def getPostPerDay():
+    if request.method == 'GET':
+        result = Post.getPostPerDay()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+@app.route('/Pictochat/dashboard/replies', methods=['GET'])
+def getRepliesPerDay():
+    if request.method == 'GET':
+        result = Post.getReplyPerDay()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+@app.route('/Pictochat/dashboard/likes', methods=['GET'])
+def getLikesPerDay():
+    if request.method == 'GET':
+        result = Post.getLikesPerDay()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+@app.route('/Pictochat/dashboard/dislikes', methods=['GET'])
+def getDisikesPerDay():
+    if request.method == 'GET':
+        result = Post.getDislikesPerDay()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
+
 
 
 if __name__ == '__main__':

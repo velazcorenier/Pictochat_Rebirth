@@ -50,3 +50,15 @@ class PostDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    ###################### Dashboard DAO ############################
+
+    def getTrendingHashtags(self):
+        cursor = self.conn.cursor()
+        query = "select hashtag, count(*) as Rank from hashtag group by hashtag order by Rank desc;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+            print(row)
+        return result

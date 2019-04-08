@@ -79,3 +79,42 @@ class UserDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    ###################### Read Credentials########################
+
+    def getAllCredentials(self):
+        cursor = self.conn.cursor()
+        query = "select * from credential;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getUserCredentials(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select * from credential where user_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        return result
+
+    ###################### Read Activity ########################
+
+    def getAllActivity(self):
+        cursor = self.conn.cursor()
+        query = "select * from activity;"
+        cursor.execute(query)
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
+    def getUserActivity(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select * from activity where user_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
+        return result
+
