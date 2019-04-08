@@ -6,34 +6,34 @@ dao = PostDAO()
 
 ###################### Main HANDLER ############################
 
-def getAllPostMessages():
-    rows = dao.getAllPostMessages()
+def getAllPost():
+    rows = dao.getAllPosts()
     if not rows:
         return jsonify(Error="No Message found"), 404
     result = []
     for row in rows:
         result.append(Dict.post_dict(row))
-    return jsonify(Post_Messages=result)
+    return jsonify(Posts=result)
 
-def getPostMessagesByChatID(chat_id):
-    chat_post_messages = dao.getPostMessagesByChatID(chat_id)
-    if not chat_post_messages:
-        return jsonify(Error="No Messages Found")
-    result_post_messages = []
-    for row in chat_post_messages:
-        result = Dict.post_msg_chat_dict(row)
-        result_post_messages.append(result)
-    return jsonify(PostMessages = result_post_messages)
-
-def getPostByIDForUI(post_id):
-    chat_post_messages = dao.getPostByIDForUI(post_id)
+def getPostByChatID(chat_id):
+    chat_post_messages = dao.getPostByIDForUI(chat_id)
     if not chat_post_messages:
         return jsonify(Error="No Messages Found")
     result_post_messages = []
     for row in chat_post_messages:
         result = Dict.post_msg_chat_dict_UI(row)
         result_post_messages.append(result)
-    return jsonify(PostMessages = result_post_messages)
+    return jsonify(PostsInChat = result_post_messages)
+
+# def getPostByIDForUI(post_id):
+#     chat_post_messages = dao.getPostByIDForUI(post_id)
+#     if not chat_post_messages:
+#         return jsonify(Error="No Messages Found")
+#     result_post_messages = []
+#     for row in chat_post_messages:
+#         result = Dict.post_msg_chat_dict_UI(row)
+#         result_post_messages.append(result)
+#     return jsonify(PostMessages = result_post_messages)
 
 ###################### Reaction HANDLER ############################
 

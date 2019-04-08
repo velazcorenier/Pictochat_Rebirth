@@ -12,7 +12,7 @@ class PostDAO:
 
     ###################### Main DAO ########################
 
-    def getAllPostMessages(self):
+    def getAllPosts(self):
         cursor = self.conn.cursor()
         query = "select * from Post;"
         cursor.execute(query)
@@ -21,23 +21,23 @@ class PostDAO:
             result.append(row)
         return result
 
-    def getPostMessagesByChatID(self, chat_id):
-        cursor = self.conn.cursor()
-        query = "select post_id, post_msg, user_id from Post natural inner join users where chat_id = %s;"
-        cursor.execute(query, (chat_id,))
-        result = []
-        for row in cursor:
-            result.append(row)
-        return result
+    # def getPostMessagesByChatID(self, chat_id):
+    #     cursor = self.conn.cursor()
+    #     query = "select post_id, post_msg, user_id from Post natural inner join users where chat_id = %s;"
+    #     cursor.execute(query, (chat_id,))
+    #     result = []
+    #     for row in cursor:
+    #         result.append(row)
+    #     return result
 
-    def getPostByIDForUI(self, post_id):
+    def getPostByIDForUI(self, chat_id):
         cursor = self.conn.cursor()
         query = "SELECT post_id, post_msg, post_date, user_id, username, L.post_likes, D.post_dislikes, chat_name, location " \
                 "FROM Post natural inner join Users natural inner join Credential natural inner join Chat  natural inner join Media " \
-                "natural inner join (SELECT count(react_type) as post_likes FROM React WHERE react_type = 1 and post_id = %s) as L natural inner join" \
-                " (SELECT count(react_type) as post_dislikes FROM react WHERE react_type = -1 and post_id = %s) as D " \
-                "WHERE post_id = %s;"
-        cursor.execute(query, (post_id, post_id, post_id,))
+                "natural inner join (SELECT count(react_type) as post_likes FROM React WHERE react_type = 1 and post_id = 1) as L natural inner join" \
+                " (SELECT count(react_type) as post_dislikes FROM react WHERE react_type = -1 and post_id = 1) as D " \
+                "WHERE chat_id = %s;"
+        cursor.execute(query, (chat_id,))
         result = []
         for row in cursor:
             result.append(row)

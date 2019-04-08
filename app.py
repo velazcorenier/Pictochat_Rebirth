@@ -138,19 +138,30 @@ def getAllChats():
 
 ###################### Post Routes ########################
 
-@app.route('/Pictochat/post/messages', methods=['GET'])
-def getAllPostMessages():
+@app.route('/Pictochat/posts', methods=['GET'])
+def getAllPosts():
     if request.method == 'GET':
-        result = Post.getAllPostMessages()
+        result = Post.getAllPost()
         return result
     else:
         return jsonify(Error="Method not allowed"), 404
 
 
-@app.route('/Pictochat/post/messages/<int:chat_id>', methods=['GET', 'POST'])
-def getPostMessagesByChatID(chat_id):
+# @app.route('/Pictochat/post/messages/<int:chat_id>', methods=['GET', 'POST'])
+# def getPostMessagesByChatID(chat_id):
+#     if request.method == 'GET':
+#         result = Post.getPostMessagesByChatID(chat_id)
+#         return result
+#     elif request.method == 'POST':
+#         result = Post.insertMessage(request.json)
+#         return result
+#     else:
+#         return jsonify(Error="Method not allowed"), 404
+
+@app.route('/Pictochat/posts/<int:chat_id>', methods=['GET', 'POST'])
+def getPostByChatID(chat_id):
     if request.method == 'GET':
-        result = Post.getPostMessagesByChatID(chat_id)
+        result = Post.getPostByChatID(chat_id)
         return result
     elif request.method == 'POST':
         result = Post.insertMessage(request.json)
@@ -158,16 +169,16 @@ def getPostMessagesByChatID(chat_id):
     else:
         return jsonify(Error="Method not allowed"), 404
 
-@app.route('/Pictochat/post/UI/<int:post_id>', methods=['GET', 'POST'])
-def getPostByIDForUI(post_id):
-    if request.method == 'GET':
-        result = Post.getPostByIDForUI(post_id)
-        return result
-    elif request.method == 'POST':
-        result = Post.insertMessage(request.json)
-        return result
-    else:
-        return jsonify(Error="Method not allowed"), 404
+# @app.route('/Pictochat/post/UI/<int:post_id>', methods=['GET', 'POST'])
+# def getPostByIDForUI(chat_id):
+#     if request.method == 'GET':
+#         result = Post.getPostByIDForUI(post_id)
+#         return result
+#     elif request.method == 'POST':
+#         result = Post.insertMessage(request.json)
+#         return result
+#     else:
+#         return jsonify(Error="Method not allowed"), 404
 
 ###################### Hashtag Routes ######################
 

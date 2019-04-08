@@ -114,7 +114,7 @@ insert into Post(post_msg, post_date, user_id, chat_id) values
 create table Hashtag(hashtag_id serial, hashtag_text varchar (15), post_id integer references Post(post_id),  primary key(post_id, hashtag_id));
 insert into Hashtag(hashtag_text, post_id) values
 ('#chilling', 2), ('#chilling', 3), ('#chilling', 4), ('#chilling', 5),
-('#VamoaBeber', 1), ('#VamoaBeber', 3) ('#VamoaBeber', 5),
+('#VamoaBeber', 1), ('#VamoaBeber', 3), ('#VamoaBeber', 5),
 ('#PaElClutch', 1), ('#PaElClutch', 2),
 ('#FuckingMuerto', 1);
 
@@ -122,16 +122,21 @@ create table React(user_id integer references Users(user_id), post_id integer re
 insert into React(user_id, post_id, react_date, react_type) values
 (3, 1, TIMESTAMP '2019-3-28 14:30:45', 1),
 (2, 1, TIMESTAMP '2019-3-28 14:31:30', 1),
+(1, 1, TIMESTAMP '2019-3-28 14:34:30', -1),
 (5, 2, TIMESTAMP '2019-4-01 10:59:20', 1),
+(4, 2, TIMESTAMP '2019-4-01 11:59:20', -1),
+(3, 2, TIMESTAMP '2019-4-01 12:59:20', 1),
+(1, 2, TIMESTAMP '2019-4-01 13:59:20', -1),
 (1, 3, TIMESTAMP '2019-4-03 17:15:54', 1),
-(5, 4, TIMESTAMP '2019-4-03 17:16:34', -1);
+(5, 4, TIMESTAMP '2019-4-03 17:16:34', -1),
+(2, 5, TIMESTAMP '2019-4-03 17:18:34', 1);
 
 create table Media(media_id serial primary key, post_id integer references Post(post_id), media_type char(1), location varchar(200), check(media_type = 'V' OR media_type = 'P' OR media_type = 'M'));
 insert into Media(post_id, media_type, location) values
 (1, 'P', '/static/img-1-playa.png'),
 (2, 'P', '/static/img-2-truck.png'),
 (3, 'P', '/static/img-3-whiskey.png'),
-(4, 'P', '/static/img-4-DB.png');
+(4, 'P', '/static/img-4-DB.png'),
 (5, 'P', '/static/img-5-meme.png');
 
 
