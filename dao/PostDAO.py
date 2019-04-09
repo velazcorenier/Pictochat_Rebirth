@@ -110,9 +110,9 @@ class PostDAO:
 
     def getPostPerDay(self):
         cursor = self.conn.cursor()
-        query = '''SELECT trunc(post_date), count(*)
+        query = '''SELECT DATE(post_date), count(*)
                    FROM Post
-                   GROUP BY trunc(post_date)'''
+                   GROUP BY DATE(post_date)'''
         cursor.execute(query)
         result = []
 
