@@ -52,7 +52,7 @@ def getPostDislikesCountByID(post_id):
 
 
 def getRepliesByPostID(post_id):
-    replies_info = dao.getMediaByPostID(post_id)
+    replies_info = dao.getRepliesByPostID(post_id)
     if not replies_info:
         return jsonify(Error="No Replies Found")
     result_replies = []
@@ -82,6 +82,5 @@ def getTrendingHashtags():
     hashtags = dao.getTrendingHashtags()
     for row in hashtags:
         result = Dict.dashboard_hashtag_dict(row)
-        print(result)
         tophashtags.append(result)
     return jsonify(Hashtags=tophashtags)

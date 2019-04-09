@@ -216,7 +216,7 @@ def getMediaByPostID(post_id):
 @app.route('/Pictochat/post/<int:post_id>/replies', methods=['GET'])
 def getRepliesByPostID(post_id):
     if request.method == 'GET':
-        result = User.getUsersWhoLikedPost(post_id)
+        result = Post.getRepliesByPostID(post_id)
         return result
     else:
         return jsonify(Error="Method not allowed"), 404
@@ -240,29 +240,6 @@ def getPostPerDay():
     else:
         return jsonify(Error="Method not allowed"), 404
 
-@app.route('/Pictochat/dashboard/replies', methods=['GET'])
-def getRepliesPerDay():
-    if request.method == 'GET':
-        result = Post.getReplyPerDay()
-        return result
-    else:
-        return jsonify(Error="Method not allowed"), 404
-
-@app.route('/Pictochat/dashboard/likes', methods=['GET'])
-def getLikesPerDay():
-    if request.method == 'GET':
-        result = Post.getLikesPerDay()
-        return result
-    else:
-        return jsonify(Error="Method not allowed"), 404
-
-@app.route('/Pictochat/dashboard/dislikes', methods=['GET'])
-def getDisikesPerDay():
-    if request.method == 'GET':
-        result = Post.getDislikesPerDay()
-        return result
-    else:
-        return jsonify(Error="Method not allowed"), 404
 
 
 
