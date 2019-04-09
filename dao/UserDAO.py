@@ -40,7 +40,6 @@ class UserDAO:
         return result
 
 
-    # Returns the users that are members of the chat with ID cid
     def getUsersByChatID(self, chat_id):
         cursor = self.conn.cursor()
         query = "select user_id, first_name, last_name from users natural join participant where chat_id = %s;"
@@ -50,15 +49,15 @@ class UserDAO:
             result.append(row)
         return result
 
-    # Returns the user that is admin of the chat with ID cid
     def getAdminByChatID(self, chat_id):
         cursor = self.conn.cursor()
-        query = "select C.admin, U.first_name, U.last_name from users as U, chat as C where C.chat_id = %s and" \
-                " U.user_id = C.admin;"
+        query = '''select C.admin, U.first_name, U.last_name from users as U, chat as C where C.chat_id = %s and
+                     U.user_id = C.admin;'''
 
         cursor.execute(query, (chat_id,))
         result = cursor.fetchone()
         return result
+
 
     def getUsersWhoLikedPost(self, post_id):
         cursor = self.conn.cursor()

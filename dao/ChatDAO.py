@@ -20,3 +20,12 @@ class ChatDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def getChatByID(self, chat_id):
+        cursor = self.conn.cursor()
+        query = "select C.chat_id, C.chat_name, C.admin, U.first_name, U.last_name from users as U, chat as C where C.chat_id = %s and" \
+                " U.user_id = C.admin;"
+        cursor.execute(query, (chat_id,))
+        result = cursor.fetchone()
+        return result
+

@@ -7,7 +7,6 @@ dao = ChatDAO()
 ###################### Main HANDLER ############################
 
 def getAllChats():
-    # This method will return all the chats
     chat_lists = dao.getAllChats()
     if not chat_lists:
         return jsonify(Error="No Chats Found")
@@ -16,4 +15,11 @@ def getAllChats():
     for row in chat_lists:
         result = Dict.chat_dict(row)
         result_list.append(result)
-    return jsonify(Chat=result_list)
+    return jsonify(Chats=result_list)
+
+def getChatByID(chat_id):
+    chat = dao.getChatByID(chat_id)
+    if not chat:
+        return jsonify(Error=" Chat not found"), 404
+    chat = Dict.chatUI_dict(chat)
+    return jsonify(Chat=chat)

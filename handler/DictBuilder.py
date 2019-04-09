@@ -48,6 +48,16 @@ def chat_dict(chatInfo):
     chat["admin"] = chatInfo[2]
     return chat
 
+def chatUI_dict(chatInfo):
+    # chat_id, chat_name, admin
+    chat = {}
+    chat["chat_id"] = chatInfo[0]
+    chat["chat_name"] = chatInfo[1]
+    chat["admin"] = chatInfo[2]
+    chat["first_name"] = chatInfo[3]
+    chat["last_name"] = chatInfo[4]
+    return chat
+
 #Dict use for demo
 def post_msg_chat_dict(postChatInfo):
     # chat_id, chat_name, admin

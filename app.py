@@ -134,6 +134,15 @@ def getAllChats():
     else:
         return jsonify(Error="Method not allowed"), 404
 
+
+@app.route('/Pictochat/chat/<int:chat_id>', methods=['GET'])
+def getChatByID(chat_id):
+    if request.method == 'GET':
+        result = Chat.getChatByID(chat_id)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
 @app.route('/Pictochat/chat/<int:chat_id>/posts', methods=['GET', 'POST'])
 def getPostByChatID(chat_id):
     if request.method == 'GET':
