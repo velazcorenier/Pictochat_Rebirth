@@ -29,3 +29,12 @@ class ChatDAO:
         result = cursor.fetchone()
         return result
 
+    def getChatByUserID(self, user_id):
+        cursor = self.conn.cursor()
+        query = "select chat_id, chat_name, admin from Chat natural inner join Participant where user_id = %s;"
+        cursor.execute(query, (user_id,))
+        result = []
+
+        for row in cursor:
+            result.append(row)
+        return result

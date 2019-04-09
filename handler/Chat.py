@@ -23,3 +23,12 @@ def getChatByID(chat_id):
         return jsonify(Error=" Chat not found"), 404
     chat = Dict.chatUI_dict(chat)
     return jsonify(Chat=chat)
+
+def getChatByUserID(user_id):
+    rows = dao.getChatByUserID(user_id)
+    if not rows:
+        return jsonify(Error="No Chats found"), 404
+    result = []
+    for row in rows:
+        result.append(Dict.chat_dict(row))
+    return jsonify(Chats=result)
