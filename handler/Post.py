@@ -15,8 +15,8 @@ def getAllPost():
         result.append(Dict.post_dict(row))
     return jsonify(Posts=result)
 
-def getPostByChatID(chat_id):
-    chat_post_messages = dao.getPostByIDForUI(chat_id)
+def getChatPostsForUI(chat_id):
+    chat_post_messages = dao.getChatPostsForUI(chat_id)
     if not chat_post_messages:
         return jsonify(Error="No Messages Found")
     result_post_messages = []
