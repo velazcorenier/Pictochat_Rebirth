@@ -33,11 +33,10 @@ class PostDAO:
 
     def getChatPostsForUI(self, chat_id):
         cursor = self.conn.cursor()
-        query = "SELECT post_id, post_msg, post_date, user_id, username, L.post_likes, D.post_dislikes, chat_name, location " \
-                "FROM Post natural inner join Users natural inner join Credential natural inner join Chat  natural inner join Media " \
-                "natural inner join (SELECT count(react_type) as post_likes FROM React WHERE react_type = 1 and post_id = 1) as L natural inner join" \
-                " (SELECT count(react_type) as post_dislikes FROM react WHERE react_type = -1 and post_id = 1) as D " \
-                "WHERE chat_id = %s;"
+        query = '''SELECT R.post_id, count(react_type) as post_likes
+                FROM React as R, Post as P
+                WHERE react_type = 1 and R.post_id = P.post_id
+                GROUP BY R.post_id'''
         cursor.execute(query, (chat_id,))
         result = []
 
@@ -90,7 +89,7 @@ class PostDAO:
         query = "select hashtag_text, count(*)  as Total from hashtag group by hashtag_text order by Total desc;"
         cursor.execute(query)
         result = []
-        
+
         for row in cursor:
             result.append(row)
             print(row)
