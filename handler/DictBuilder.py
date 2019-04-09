@@ -80,8 +80,8 @@ def post_msg_chat_dict_UI(postChatInfo):
     post_chat_UI["username"] = postChatInfo[4]
     post_chat_UI["likes"] = postChatInfo[5]
     post_chat_UI["dislikes"] = postChatInfo[6]
-    post_chat_UI["chat_name"] = postChatInfo[7]
-    post_chat_UI["location"] = postChatInfo[8]
+    post_chat_UI["location"] = postChatInfo[7]
+    post_chat_UI["media_id"] = postChatInfo[8]
     return post_chat_UI
 
 def participants_dict(chatParticipant):
@@ -168,8 +168,6 @@ def reply_dict(postReply):
     reply["reply_id"] = postReply[0]
     reply["reply_msg"] = postReply[1]
     reply["reply_date"] = postReply[2]
-    reply["user_id"] = postReply[3]
-    reply["post_id"] = postReply[4]
     return reply
 
 

@@ -25,15 +25,6 @@ def getChatPostsForUI(chat_id):
         result_post_messages.append(result)
     return jsonify(PostsInChat = result_post_messages)
 
-# def getPostByIDForUI(post_id):
-#     chat_post_messages = dao.getPostByIDForUI(post_id)
-#     if not chat_post_messages:
-#         return jsonify(Error="No Messages Found")
-#     result_post_messages = []
-#     for row in chat_post_messages:
-#         result = Dict.post_msg_chat_dict_UI(row)
-#         result_post_messages.append(result)
-#     return jsonify(PostMessages = result_post_messages)
 
 ###################### Reaction HANDLER ############################
 
@@ -56,6 +47,19 @@ def getPostDislikesCountByID(post_id):
     map_result["post_id"] = result[0][0]
     map_result["dislikes"] = result[0][1]
     return jsonify(PostDislikes=map_result)
+
+###################### Reply HANDLER ############################
+
+
+def getRepliesByPostID(post_id):
+    replies_info = dao.getMediaByPostID(post_id)
+    if not replies_info:
+        return jsonify(Error="No Replies Found")
+    result_replies = []
+    for row in replies_info:
+        result = Dict.reply_dict(row)
+        result_replies.append(result)
+    return jsonify(Replies=result_replies)
 
 ###################### Media HANDLER ############################
 

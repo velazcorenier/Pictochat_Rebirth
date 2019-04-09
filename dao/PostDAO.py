@@ -33,10 +33,17 @@ class PostDAO:
 
     def getChatPostsForUI(self, chat_id):
         cursor = self.conn.cursor()
-        query = '''SELECT R.post_id, count(react_type) as post_likes
-                FROM React as R, Post as P
-                WHERE react_type = 1 and R.post_id = P.post_id
-                GROUP BY R.post_id'''
+        query = '''SELECT post_id, post_msg, post_date, user_id, username, L.post_likes, D.post_dislikes, location, media_id
+                    FROM Post natural inner join Credential natural inner join Media natural inner join
+                        (SELECT post_id, count(react_type) as post_likes
+                         FROM React
+                         WHERE react_type = 1
+                         GROUP BY post_id) as L
+                         natural inner join
+                        (SELECT post_id, count(react_type) as post_dislikes
+                         FROM React
+                         WHERE react_type = -1
+                         GROUP BY post_id) as D'''
         cursor.execute(query, (chat_id,))
         result = []
 
@@ -67,6 +74,18 @@ class PostDAO:
         for row in cursor:
             result.append(row)
 
+        return result
+
+    ###################### Replies DAO ############################
+
+
+    def getRepliesByPostID(self, post_id):
+        cursor = self.conn.cursor()
+        query = "select reply_id, reply_msg, reply_date from Reply;"
+        cursor.execute(query, (post_id,))
+        result = []
+        for row in cursor:
+            result.append(row)
         return result
 
     ###################### Media DAO ############################
