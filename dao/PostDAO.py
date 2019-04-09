@@ -22,16 +22,9 @@ class PostDAO:
             result.append(row)
         return result
 
-    # def getPostMessagesByChatID(self, chat_id):
-    #     cursor = self.conn.cursor()
-    #     query = "select post_id, post_msg, user_id from Post natural inner join users where chat_id = %s;"
-    #     cursor.execute(query, (chat_id,))
-    #     result = []
-    #     for row in cursor:
-    #         result.append(row)
-    #     return result
 
-    def getChatPostsForUI(self, chat_id):
+
+    def getPostsByChatID(self, chat_id):
         cursor = self.conn.cursor()
         query = '''SELECT post_id, post_msg, post_date, user_id, username, L.post_likes, D.post_dislikes, location, media_id
                     FROM Post natural inner join Credential natural inner join Media natural inner join

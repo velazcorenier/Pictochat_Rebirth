@@ -15,8 +15,8 @@ def getAllPost():
         result.append(Dict.post_dict(row))
     return jsonify(Posts=result)
 
-def getChatPostsForUI(chat_id):
-    chat_post_messages = dao.getChatPostsForUI(chat_id)
+def getPostsByChatID(chat_id):
+    chat_post_messages = dao.getPostsByChatID(chat_id)
     if not chat_post_messages:
         return jsonify(Error="No Messages Found")
     result_post_messages = []
@@ -84,3 +84,5 @@ def getTrendingHashtags():
         result = Dict.dashboard_hashtag_dict(row)
         tophashtags.append(result)
     return jsonify(Hashtags=tophashtags)
+
+#def getPostPerDay():
