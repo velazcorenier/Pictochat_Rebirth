@@ -35,6 +35,14 @@ def getUserByID(user_id):
     else:
         return jsonify(Error="Method not allowed"), 404
 
+@app.route('/Pictochat/users/username/<string:username>', methods=['GET'])
+def getUserByUsername(username):
+    if request.method == 'GET':
+        result = User.getUserByUsername(username)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
 @app.route('/Pictochat/post/<int:post_id>/likes', methods=['GET'])
 def getUsersWhoLikedPost(post_id):
     if request.method == 'GET':

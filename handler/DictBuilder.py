@@ -170,4 +170,11 @@ def reply_dict(postReply):
     reply["reply_date"] = postReply[2]
     return reply
 
+def post_per_day_dict(post):
+    # reply_id, reply_msg, reply_date, reply_time, user_id, post_id
+    postPerDay = {}
+    postPerDay["day"] = post[0]
+    postPerDay["total"] = post[1]
+    return postPerDay
+
 

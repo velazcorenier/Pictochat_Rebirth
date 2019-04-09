@@ -107,3 +107,17 @@ class PostDAO:
             print(row)
 
         return result
+
+    def getPostPerDay(self):
+        cursor = self.conn.cursor()
+        query = '''SELECT trunc(post_date), count(*)
+                   FROM Post
+                   GROUP BY trunc(post_date)'''
+        cursor.execute(query)
+        result = []
+
+        for row in cursor:
+            result.append(row)
+
+        return result
+

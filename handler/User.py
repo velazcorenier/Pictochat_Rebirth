@@ -84,6 +84,9 @@ def getUserCredentials(user_id):
     result = Dict.credential_dict(result)
     return jsonify(UserCredentials = result)
 
+#def getUserByUsername(username):
+
+
 ###################### Activity HANDLER ############################
 
 def getAllActivity():
@@ -103,3 +106,13 @@ def getUserActivity(user_id):
     for row in result:
         mapped_result.append(Dict.activity_dict(row))
     return jsonify(UserActivity = result)
+
+def getUserByUsername(username):
+    user = dao.getUserByUsername(username)
+
+    if not user:
+        return jsonify(Error="No User Found")
+
+    result = Dict.credential_dict(user)
+
+    return jsonify(User=result)

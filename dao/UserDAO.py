@@ -117,3 +117,12 @@ class UserDAO:
             result.append(row)
         return result
 
+    def getUserByUsername(self, username):
+        cursor = self.conn.cursor()
+        query = '''SELECT username, password, user_id 
+                   FROM Credential
+                   WHERE username = %s;'''
+        cursor.execute(query, (username,))
+        result = cursor.fetchone()
+
+        return result

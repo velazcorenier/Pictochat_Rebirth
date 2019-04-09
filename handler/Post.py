@@ -85,4 +85,12 @@ def getTrendingHashtags():
         tophashtags.append(result)
     return jsonify(Hashtags=tophashtags)
 
-#def getPostPerDay():
+def getPostPerDay():
+    postsPerDay = dao.getPostPerDay()
+    result_list = []
+
+    for row in postsPerDay:
+        result = Dict.post_per_day_dict(row)
+        result_list.append(result)
+
+    return jsonify(PostsPerDay=result_list)
