@@ -26,17 +26,14 @@ class PostDAO:
 
     def getPostsByChatID(self, chat_id):
         cursor = self.conn.cursor()
-        query = '''SELECT post_id, post_msg, post_date, user_id, username, L.post_likes, D.post_dislikes, location, media_id
-                    FROM Post natural inner join Credential natural inner join Media natural inner join
-                        (SELECT post_id, count(react_type) as post_likes
-                         FROM React
-                         WHERE react_type = 1
-                         GROUP BY post_id) as L
-                         natural inner join
-                        (SELECT post_id, count(react_type) as post_dislikes
-                         FROM React
-                         WHERE react_type = -1
-                         GROUP BY post_id) as D'''
+        query = '''select chat_id, Post.post_id, user_id as created_by,username, post_msg, post_date, media_id,location,
+                  COALESCE(L.post_likes,'0') as post_likes, COALESCE(D.post_dislikes,'0') as post_dislikes
+                   from Credential natural inner join Post left outer join Media on Post.post_id = Media.post_id
+                   left outer join (SELECT post_id, count(react_type) as post_likes 
+                   from React where react_type = 1 group by post_id) as L on Post.post_id = L.post_id
+                   left outer join (SELECT post_id, count(react_type) as post_dislikes 
+                   from React where react_type = -1 group by post_id) as D on Post.post_id = D.post_id
+                   where chat_id = %s;'''
         cursor.execute(query, (chat_id,))
         result = []
 

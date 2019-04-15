@@ -73,15 +73,16 @@ def post_msg_chat_dict(postChatInfo):
 def post_msg_chat_dict_UI(postChatInfo):
     # chat_id, chat_name, admin
     post_chat_UI = {}
-    post_chat_UI["post_id"] = postChatInfo[0]
-    post_chat_UI["post_msg"] = postChatInfo[1]
-    post_chat_UI["post_date"] = postChatInfo[2]
-    post_chat_UI["user_id"] = postChatInfo[3]
-    post_chat_UI["username"] = postChatInfo[4]
-    post_chat_UI["likes"] = postChatInfo[5]
-    post_chat_UI["dislikes"] = postChatInfo[6]
-    post_chat_UI["location"] = postChatInfo[7]
-    post_chat_UI["media_id"] = postChatInfo[8]
+    post_chat_UI["chatId"] = postChatInfo[0]
+    post_chat_UI["postId"] = postChatInfo[1]
+    post_chat_UI["createdById"] = postChatInfo[2]
+    post_chat_UI["username"] = postChatInfo[3]
+    post_chat_UI["postMsg"] = postChatInfo[4]
+    post_chat_UI["postDate"] = postChatInfo[5]
+    post_chat_UI["mediaId"] = postChatInfo[6]
+    post_chat_UI["mediaLocation"] = postChatInfo[7]
+    post_chat_UI["likes"] = postChatInfo[8]
+    post_chat_UI["dislikes"] = postChatInfo[9]
     return post_chat_UI
 
 def participants_dict(chatParticipant):
