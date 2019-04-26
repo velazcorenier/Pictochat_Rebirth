@@ -71,7 +71,8 @@ class PostDAO:
 
     def getRepliesByPostID(self, post_id):
         cursor = self.conn.cursor()
-        query = "select reply_id, reply_msg, reply_date from Reply;"
+        query = '''select reply_id, reply_msg, reply_date, username 
+                    from Reply natural inner join credential where post_id = %s; '''
         cursor.execute(query, (post_id,))
         result = []
         for row in cursor:

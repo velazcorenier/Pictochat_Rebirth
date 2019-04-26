@@ -25,6 +25,16 @@ def getPostsByChatID(chat_id):
         result_post_messages.append(result)
     return jsonify(PostsInChat = result_post_messages)
 
+def getPostsByChatIDForUI(chat_id):
+    chat_post_messages = dao.getPostsByChatID(chat_id)
+    # if not chat_post_messages:
+    #     return jsonify(Error="No Messages Found")
+    result_post_messages = []
+    for row in chat_post_messages:
+        # result = Dict.post_msg_chat_dict_UI_Test(row, getRepliesByPostIDTest(row[1]))
+        result_post_messages.append(Dict.post_msg_chat_dict_UI_2(row, getRepliesByPostIDForUI(row[1])))
+    return jsonify(PostsInChat = result_post_messages)
+
 
 ###################### Reaction HANDLER ############################
 
@@ -60,6 +70,13 @@ def getRepliesByPostID(post_id):
         result = Dict.reply_dict(row)
         result_replies.append(result)
     return jsonify(Replies=result_replies)
+
+def getRepliesByPostIDForUI(post_id):
+    replies_info = dao.getRepliesByPostID(post_id)
+    result_replies = []
+    for row in replies_info:
+        result_replies.append(Dict.reply_dict(row))
+    return result_replies
 
 ###################### Media HANDLER ############################
 

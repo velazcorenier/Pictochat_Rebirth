@@ -163,7 +163,7 @@ def getChatByUserID(user_id):
 @app.route('/Pictochat/chat/<int:chat_id>/posts', methods=['GET', 'POST'])
 def getPostsByChatID(chat_id):
     if request.method == 'GET':
-        result = Post.getPostsByChatID(chat_id)
+        result = Post.getPostsByChatIDForUI(chat_id)
         return result
     elif request.method == 'POST':
         result = Post.insertMessage(request.json)

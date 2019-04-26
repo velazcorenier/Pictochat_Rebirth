@@ -85,6 +85,22 @@ def post_msg_chat_dict_UI(postChatInfo):
     post_chat_UI["dislikes"] = postChatInfo[9]
     return post_chat_UI
 
+def post_msg_chat_dict_UI_2(postChatInfo, replies):
+    # chat_id, chat_name, admin
+    post_chat_UI = {}
+    post_chat_UI["chatId"] = postChatInfo[0]
+    post_chat_UI["postId"] = postChatInfo[1]
+    post_chat_UI["createdById"] = postChatInfo[2]
+    post_chat_UI["username"] = postChatInfo[3]
+    post_chat_UI["postMsg"] = postChatInfo[4]
+    post_chat_UI["postDate"] = postChatInfo[5]
+    post_chat_UI["mediaId"] = postChatInfo[6]
+    post_chat_UI["mediaLocation"] = postChatInfo[7]
+    post_chat_UI["likes"] = postChatInfo[8]
+    post_chat_UI["dislikes"] = postChatInfo[9]
+    post_chat_UI["replies"] = replies
+    return post_chat_UI
+
 def participants_dict(chatParticipant):
     # chat_id, user_id
     participant = {}
@@ -169,6 +185,7 @@ def reply_dict(postReply):
     reply["reply_id"] = postReply[0]
     reply["reply_msg"] = postReply[1]
     reply["reply_date"] = postReply[2]
+    reply["reply_username"] = postReply[3]
     return reply
 
 def post_per_day_dict(post):
