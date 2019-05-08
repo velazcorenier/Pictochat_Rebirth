@@ -111,3 +111,7 @@ def getPostPerDay():
         result_list.append(result)
 
     return jsonify(PostsPerDay=result_list)
+
+def getRepliesPerDay():
+    repliesPerDay = dao.getRepliesPerDay()
+    return jsonify(RepliesPerDay=repliesPerDay)
