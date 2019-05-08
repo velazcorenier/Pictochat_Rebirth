@@ -3,6 +3,10 @@ from flask_cors import CORS
 from handler import Chat
 from handler import Post
 from handler import User
+from dao.PostDAO import PostDAO
+
+postDao = PostDAO()
+
 
 app = Flask(__name__)
 CORS(app)
@@ -252,6 +256,34 @@ def getPostPerDay():
         return result
     else:
         return jsonify(Error="Method not allowed"), 404
+
+@app.route('/Pictochat/dashboard/replies', methods=['GET'])
+def getRepliesPerDay():
+    if request.method == 'GET':
+        result = postDao.getRepliesPerDay()
+        return jsonify(RepliesPerDay=result)
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
+@app.route('/Pictochat/dashboard/likes', methods=['GET'])
+def getLikesPerDay():
+    if request.method == 'GET':
+        result = postDao.getLikesPerDay()
+        return jsonify(LikesPerDay=result)
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
+@app.route('/Pictochat/dashboard/dislikes', methods=['GET'])
+def getDislikesPerDay():
+    if request.method == 'GET':
+        result = postDao.getDislikesPerDay()
+        return jsonify(DislikesPerDay=result)
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
 
 
 

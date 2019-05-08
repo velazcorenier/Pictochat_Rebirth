@@ -1,5 +1,6 @@
 from config.dbconfig import pg_config
 import psycopg2
+import psycopg2.extras
 
 
 class PostDAO:
@@ -117,5 +118,37 @@ class PostDAO:
         for row in cursor:
             result.append(row)
 
+        return result
+
+    def getRepliesPerDay(self):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = '''SELECT DATE(reply_date), count(*)
+                   FROM Reply
+                   GROUP BY DATE(reply_date)'''
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+    def getLikesPerDay(self):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = '''SELECT DATE(react_date), count(*)
+                           FROM React
+                           WHERE react_type = 1
+                           GROUP BY DATE(react_date)'''
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+    def getDislikesPerDay(self):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = '''SELECT DATE(react_date), count(*)
+                   FROM React
+                   WHERE react_type = -1
+                   GROUP BY DATE(react_date)'''
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
         return result
 
