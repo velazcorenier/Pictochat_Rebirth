@@ -6,6 +6,34 @@ dao = UserDAO()
 
 ###################### Main HANDLER ############################
 
+def registerUser(form):
+    # Assumes form contains username, password, first_name, last_name, email, phone
+    if form and len(form) == 6:
+        username = form['user']
+        password = form['password']
+        first_name = form['first_name']
+        last_name = form['last_name']
+        email = form['email']
+        phone = form['phone']
+
+        if username and password and first_name and last_name and email and phone:
+            user_id = dao.registerUser(first_name, last_name, email, phone)
+            dao.registerUserCredentials(username, password, user_id)
+
+            result = {}
+            result['user_id'] = user_id
+            result['username'] = username
+            result['first_name'] = first_name
+            result['last_name'] = last_name
+            result['email'] = email
+            result['phone'] = [phone]
+
+            return jsonify(Supploer=result), 201
+        else:
+            return jsonify(Error='Malformed POST request')
+    else:
+        return jsonify(Error='Malformed POST request')
+
 def getAllUsers():
     result = dao.getAllUsers()
     if not result:

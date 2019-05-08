@@ -81,6 +81,13 @@ class UserDAO:
 
     ###################### Read Credentials########################
 
+    def registerUserCredentials(self, username, password, user_id):
+        cursor = self.conn.cursor()
+        query = "INSERT INTO Credentials(username, password, user_id) VALUES (%s, %s, %s);"
+        cursor.execute(query, (username, password, user_id,))
+        self.conn.commit()
+        cursor.close()
+
     def getAllCredentials(self):
         cursor = self.conn.cursor()
         query = "select * from credential;"
@@ -124,5 +131,15 @@ class UserDAO:
                    WHERE username = %s;'''
         cursor.execute(query, (username,))
         result = cursor.fetchone()
+
+        return result
+
+    def registerUser(self, first_name, last_name, email, phone):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO Users(first_name, last_name, email, phone) VALUES (%s, %s, %s, %s) RETURNING user_id;'
+        cursor.execute(query, (first_name, last_name, email, phone));
+        result = cursor.fetchone()['user_id']
+        self.conn.commit()
+        cursor.close()
 
         return result

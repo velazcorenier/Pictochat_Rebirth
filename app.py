@@ -20,6 +20,12 @@ def homeforApp():
 
 ###################### Users Routes ############################
 
+@app.route('/Pictochat/users/register', methods=['GET, POST'])
+def register():
+    if request.method == 'POST':
+        return User.registerUser(request.form)
+    return jsonify(Error="Method not allowed."), 405
+
 @app.route('/Pictochat/users/all', methods=['GET', 'POST'])
 def getAllUsers():
     if request.method == 'GET':
