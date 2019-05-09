@@ -28,7 +28,7 @@ def registerUser(form):
             result['email'] = email
             result['phone'] = [phone]
 
-            return jsonify(Supploer=result), 201
+            return jsonify(Supplier=result), 201
         else:
             return jsonify(Error='Malformed POST request')
     else:

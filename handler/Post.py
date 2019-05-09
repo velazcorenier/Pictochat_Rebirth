@@ -35,6 +35,30 @@ def getPostsByChatIDForUI(chat_id):
         result_post_messages.append(Dict.post_msg_chat_dict_UI_2(row, getRepliesByPostIDForUI(row[1])))
     return jsonify(PostsInChat = result_post_messages)
 
+def createPost(form):
+    # Assumes form contains post_msg, post_date, user_id, chat_id
+    if form and len(form) == 4:
+        post_msg = form['post_msg']
+        post_date = form['post_date']
+        user_id = form['user_id']
+        chat_id = form['chat_id']
+
+        if post_msg and post_date and user_id and chat_id:
+            post_id = dao.createChat(post_msg, post_date, user_id, chat_id)
+
+            result = {}
+            result['post_id'] = post_id
+            result['post_msg'] = post_msg
+            result['post_date'] = post_date
+            result['user_id'] = user_id
+            result['chat_id'] = chat_id
+
+            return jsonify(Post=result), 201
+        else:
+            return jsonify(Error='Malformed POST request')
+    else:
+        return jsonify(Error='Malformed POST request')
+
 
 ###################### Reaction HANDLER ############################
 

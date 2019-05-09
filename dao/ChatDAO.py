@@ -38,3 +38,13 @@ class ChatDAO:
         for row in cursor:
             result.append(row)
         return result
+
+    def createChat(self, chat_name, admin):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = "INSERT INTO Chat(chat_name, admin) VALUES (%s, %s) RETURNING chat_id;"
+        cursor.execute(query, (chat_name, admin,))
+
+        result = cursor.fetchone()['chat_id']
+        self.conn.commit()
+        cursor.close()
+        return result

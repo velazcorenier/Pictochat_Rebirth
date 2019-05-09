@@ -141,14 +141,17 @@ def getUserContactsByID(user_id):
 
 ###################### Chat Routes ############################
 
+@app.route('/Pictochat/chats/new', methods=['GET', 'POST'])
+def createChat():
+    if request.method == 'POST':
+        return Chat.createChat(request.form)
+    return jsonify(Error="Method not allowed."), 405
+
 @app.route('/Pictochat/chats/all', methods=['GET', 'POST'])
 def getAllChats():
     if request.method == 'GET':
         result = Chat.getAllChats()
         return result
-    elif request.method == 'POST':
-        print('working')
-        return Chat.insertChat(request.json)
     else:
         return jsonify(Error="Method not allowed"), 404
 
@@ -182,6 +185,12 @@ def getPostsByChatID(chat_id):
         return jsonify(Error="Method not allowed"), 404
 
 ###################### Post Routes ########################
+
+@app.route('/Pictochat/post/new')
+def createPost():
+    if request.method == 'POST'
+        return Post.createPost(request.form)
+    return jsonify(Error="Method not allowed"), 404
 
 @app.route('/Pictochat/posts/all', methods=['GET'])
 def getAllPosts():

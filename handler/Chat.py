@@ -32,3 +32,23 @@ def getChatByUserID(user_id):
     for row in rows:
         result.append(Dict.chat_dict(row))
     return jsonify(Chats=result)
+
+def createChat(form):
+    # Assumes form contains chat_name, admin
+    if form and len(form) == 2:
+        chat_name = form['chat_name']
+        admin = form['admin']
+
+        if admin and chat_name:
+            chat_id = dao.createChat(chat_name, admin)
+
+            result = {}
+            result['chat_id'] = chat_id
+            result['chat_name'] = chat_name
+            result['admin'] = admin
+
+            return jsonify(Chat=result), 201
+        else:
+            return jsonify(Error='Malformed POST request')
+    else:
+        return jsonify(Error='Malformed POST request')
