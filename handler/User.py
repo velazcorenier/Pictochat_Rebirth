@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, flash, session
 from dao.UserDAO import UserDAO
 from handler import DictBuilder as Dict
 
@@ -6,10 +6,10 @@ dao = UserDAO()
 
 ###################### Main HANDLER ############################
 
-def registerUser(form):
+def register(form):
     # Assumes form contains username, password, first_name, last_name, email, phone
     if form and len(form) == 6:
-        username = form['user']
+        username = form['username']
         password = form['password']
         first_name = form['first_name']
         last_name = form['last_name']
@@ -31,6 +31,32 @@ def registerUser(form):
             return jsonify(Supplier=result), 201
         else:
             return jsonify(Error='Malformed POST request')
+    else:
+        return jsonify(Error='Malformed POST request')
+
+def login(form):
+    if form and len(form) == 2:
+        username = form['username']
+        password_candidate = form['password']
+
+        user = dao.getUserByUsername(username)
+
+        if user:
+            password = user['password']
+
+            if password == password_candidate:
+                # Passed
+                session['logged_in'] = True
+                session['username'] = username
+                session['user_id'] = user['user_id']
+
+                flash('You are now logged in.', 'success')
+                return jsonify(User=user), 201
+            else:
+                flash('Invalid login.', 'danger')
+            return jsonify(Error='Invalid login.')
+        else:
+            return jsonify(Error='Username Not Found.')
     else:
         return jsonify(Error='Malformed POST request')
 

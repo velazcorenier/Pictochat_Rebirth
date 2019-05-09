@@ -1,5 +1,6 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session, flash
 from flask_cors import CORS
+from functools import wraps
 from handler import Chat
 from handler import Post
 from handler import User
@@ -12,7 +13,19 @@ app = Flask(__name__)
 CORS(app)
 
 app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'pictochat'
 
+# Check if user is logged in
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, please log in.', 'danger')
+            return jsonify(Error="Unauthorized, please log in."), 404
+
+    return wrap
 
 @app.route('/Pictochat')  # OK
 def homeforApp():
@@ -20,11 +33,28 @@ def homeforApp():
 
 ###################### Users Routes ############################
 
-@app.route('/Pictochat/users/register', methods=['GET, POST'])
+@app.route('/Pictochat/users/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        return User.registerUser(request.form)
+        return User.register(request.form)
     return jsonify(Error="Method not allowed."), 405
+
+# Login
+@app.route('/Pictochat/users/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        result = User.login(request.form)
+        return result
+    return jsonify(Error="Method not allowed."), 405
+
+# Logout
+@app.route('/Pictochat/users/logout')
+@is_logged_in
+def logout():
+    session.clear()
+    flash("You are now logged out.", "success")
+    return jsonify(LoggedOut='Logged out')
+
 
 @app.route('/Pictochat/users/all', methods=['GET', 'POST'])
 def getAllUsers():
