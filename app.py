@@ -188,7 +188,7 @@ def getPostsByChatID(chat_id):
 
 @app.route('/Pictochat/post/new')
 def createPost():
-    if request.method == 'POST'
+    if request.method == 'POST':
         return Post.createPost(request.form)
     return jsonify(Error="Method not allowed"), 404
 
