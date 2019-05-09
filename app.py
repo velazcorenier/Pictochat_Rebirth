@@ -292,7 +292,30 @@ def getDislikesPerDay():
     else:
         return jsonify(Error="Method not allowed"), 404
 
+@app.route('/Pictochat/dashboard/post/replies', methods=['GET'])
+def getRepliesPerPost():
+    if request.method == 'GET':
+        result = postDao.getRepliesPerPost()
+        return jsonify(RepliesPerPost=result)
+    else:
+        return jsonify(Error="Method not allowed"), 404
 
+@app.route('/Pictochat/dashboard/post/likes', methods=['GET'])
+def getLikesPerPost():
+    if request.method == 'GET':
+        result = postDao.getLikesPerPost()
+        return jsonify(LikesPerPost=result)
+    else:
+        return jsonify(Error="Method not allowed"), 404
+
+
+@app.route('/Pictochat/dashboard/post/dislikes', methods=['GET'])
+def getDislikesPerPost():
+    if request.method == 'GET':
+        result = postDao.getDislikesPerPost()
+        return jsonify(DislikesPerPost=result)
+    else:
+        return jsonify(Error="Method not allowed"), 404
 
 
 

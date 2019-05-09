@@ -23,8 +23,6 @@ class PostDAO:
             result.append(row)
         return result
 
-
-
     def getPostsByChatID(self, chat_id):
         cursor = self.conn.cursor()
         query = '''select chat_id, Post.post_id, user_id as created_by,username, post_msg, post_date, media_id,location,
@@ -79,7 +77,6 @@ class PostDAO:
         return result
 
     ###################### Replies DAO ############################
-
 
     def getRepliesByPostID(self, post_id):
         cursor = self.conn.cursor()
@@ -163,3 +160,40 @@ class PostDAO:
         cursor.close()
         return result
 
+    def getRepliesPerPost(self):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = '''select  post_msg as Post, count(post_msg) as Replies
+                    from (select Reply.post_id, Post.post_msg
+                    from Reply inner join Post
+                    on Reply.post_id = Post.post_id) as A
+                    GROUP BY post_msg'''
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+    def getLikesPerPost(self):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = '''select  post_msg as Post, count(post_msg) as likes
+                    from(select React.react_type, React.post_id, Post.post_msg
+                    from React  inner join Post 
+                    on React.post_id = Post.post_id
+                    where React.react_type = 1) as A
+                    GROUP BY post_msg'''
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+    def getDislikesPerPost(self):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = '''select  post_msg as Post, count(post_msg) as Dislikes
+                   from (select React.react_type, React.post_id, Post.post_msg
+                   from React inner join Post 
+                   on React.post_id = Post.post_id
+                   where React.react_type = -1) as A
+                   GROUP BY post_msg'''
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
