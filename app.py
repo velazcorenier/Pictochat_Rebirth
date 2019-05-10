@@ -57,16 +57,21 @@ def logout():
     return jsonify(LoggedOut='Logged out')
 
 
-@app.route('/Pictochat/users/all', methods=['GET', 'POST'])
+@app.route('/Pictochat/users/all', methods=['GET'])
 def getAllUsers():
     if request.method == 'GET':
         result = User.getAllUsers()
         return result
-    elif request.method == 'POST':
-        result = User.addUser(request.json)
-        return result
     else:
          return jsonify(Error="Method not allowed"), 405
+
+@app.route('/Pictochat/users/logged', methods=['GET'])
+def getAllUsersNotSession():
+    if request.method == 'GET':
+        result = User.getAllUsersNotSession()
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/users/<int:user_id>', methods=['GET'])
 def getUserByID(user_id):
@@ -175,6 +180,7 @@ def getUserContactsByID(user_id):
 @app.route('/Pictochat/chats/new', methods=['GET', 'POST'])
 def createChat():
     if request.method == 'POST':
+        User.registerActivity()
         return Chat.createChat(request.json)
     return jsonify(Error="Method not allowed."), 405
 
@@ -221,6 +227,7 @@ def getPostsByChatID(chat_id):
 @is_logged_in
 def createPost():
     if request.method == 'POST':
+        User.registerActivity()
         return Post.createPost(request.json)
     return jsonify(Error="Method not allowed"), 405
 
@@ -243,6 +250,7 @@ def getAllPosts():
 @is_logged_in
 def reactPost():
     if request.method == 'POST':
+        User.registerActivity()
         result = Post.reactPost(request.json)
         return result
     else:

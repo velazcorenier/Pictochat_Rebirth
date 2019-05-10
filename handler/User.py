@@ -69,6 +69,12 @@ def getAllUsers():
         mapped_result.append(Dict.user_dict(row))
     return jsonify(Users = mapped_result)
 
+def getAllUsersNotSession():
+    result = dao.getAllUsersNotSession(session['user_id'])
+    if not result:
+        return jsonify(Error ="No Users Found"), 404
+    return jsonify(Users = result)
+
 def getUserInfo(user_id):
     result = dao.getUserInfo(user_id)
     if not result:
@@ -119,6 +125,13 @@ def getUsersWhoDislikedPost(post_id):
         mapped_result.append(Dict.reaction_user_dict(row))
     return jsonify(UsersDislikedPost = mapped_result)
 
+def getUserByUsername(username):
+    user = dao.getUserByUsername(username)
+
+    if not user:
+        return jsonify(Error="No User Found"), 404
+    return jsonify(User=user)
+
 ###################### Credential HANDLER ############################
 
 def getAllCredentials():
@@ -141,6 +154,26 @@ def getUserCredentials(user_id):
 
 ###################### Activity HANDLER ############################
 
+def registerActivity():
+    # Assumes form contains user_id
+    if session['user_id']:
+        user_id = session['user_id']
+        activity_date = 'now'
+
+        if user_id and activity_date:
+            activity_id = dao.registerActivity(user_id, activity_date)
+
+            result = {}
+            result['activity_id'] = activity_id
+            result['user_id'] = user_id
+            result['activity_date'] = activity_date
+
+            return jsonify(Activity=result), 201
+        else:
+            return jsonify(Error='Malformed POST request'), 400
+    else:
+        return jsonify(Error='No User Logged In'), 404
+
 def getAllActivity():
     result = dao.getAllActivity()
     if not result:
@@ -158,10 +191,3 @@ def getUserActivity(user_id):
     for row in result:
         mapped_result.append(Dict.activity_dict(row))
     return jsonify(UserActivity = result)
-
-def getUserByUsername(username):
-    user = dao.getUserByUsername(username)
-
-    if not user:
-        return jsonify(Error="No User Found"), 404
-    return jsonify(User=user)

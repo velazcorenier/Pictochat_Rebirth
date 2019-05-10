@@ -21,6 +21,13 @@ class UserDAO:
             result.append(row)
         return result
 
+    def getAllUsersNotSession(self, user_id):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = "SELECT * FROM users WHERE user_id != %s;"
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchall()
+        return result
+
     def getUserInfo(self, user_id):
         cursor = self.conn.cursor()
         query = "select * from users where user_id = %s;"
@@ -137,6 +144,19 @@ class UserDAO:
         query = 'INSERT INTO Users(first_name, last_name, email, phone) VALUES (%s, %s, %s, %s) RETURNING user_id;'
         cursor.execute(query, (first_name, last_name, email, phone));
         result = cursor.fetchone()['user_id']
+        self.conn.commit()
+        cursor.close()
+
+        return result
+
+        ###################### Activity DAO ############################   
+
+    def registerActivity(self, user_id, activity_date):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO Activity(user_id, activity_date) VALUES (%s, %s) RETURNING activity_id;'
+        cursor.execute(query, (user_id, activity_date,))
+
+        result = cursor.fetchone()['activity_id']
         self.conn.commit()
         cursor.close()
 

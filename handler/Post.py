@@ -174,7 +174,6 @@ def getMediaByPostID(post_id):
         result_media.append(result)
     return jsonify(Media=result_media)
 
-
 ###################### Dashboard HANDLER ############################
 
 def getTrendingHashtags():
