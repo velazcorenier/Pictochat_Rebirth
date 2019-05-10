@@ -37,14 +37,14 @@ def homeforApp():
 @app.route('/Pictochat/users/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        return User.register(request.form)
+        return User.register(request.json)
     return jsonify(Error="Method not allowed."), 405
 
 # Login
 @app.route('/Pictochat/users/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
-        result = User.login(request.form)
+        result = User.login(request.json)
         return result
     return jsonify(Error="Method not allowed."), 405
 
@@ -175,7 +175,7 @@ def getUserContactsByID(user_id):
 @app.route('/Pictochat/chats/new', methods=['GET', 'POST'])
 def createChat():
     if request.method == 'POST':
-        return Chat.createChat(request.form)
+        return Chat.createChat(request.json)
     return jsonify(Error="Method not allowed."), 405
 
 @app.route('/Pictochat/chats/all', methods=['GET', 'POST'])
@@ -220,7 +220,7 @@ def getPostsByChatID(chat_id):
 @app.route('/Pictochat/post/new')
 def createPost():
     if request.method == 'POST':
-        return Post.createPost(request.form)
+        return Post.createPost(request.json)
     return jsonify(Error="Method not allowed"), 404
 
 @app.route('/Pictochat/posts/all', methods=['GET'])
@@ -241,7 +241,7 @@ def getAllPosts():
 @app.route('/Pictochat/post/like', methods=['GET', 'POST'])
 def likePost():
     if request.method == 'POST':
-        result = Post.likePost(request.form)
+        result = Post.likePost(request.json)
         return result
     else:
         return jsonify(Error="Method not allowed"), 404      
