@@ -62,6 +62,7 @@ def createPost(form):
 ###################### Reaction HANDLER ############################
 
 def reactPost(form):
+    print(form)
     # Assumes form contains post_id, react_type
     if form and len(form) == 2:
         user_id = session['user_id']
