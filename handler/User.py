@@ -167,4 +167,6 @@ def getUserByUsername(username):
     if not user:
         return jsonify(Error="No User Found")
 
+<<<<<<< HEAD
     return jsonify(User=user)
+>>>>>>> 604a63f5e6a8ddfbbdd91dd5ab1b2dfb56598c41

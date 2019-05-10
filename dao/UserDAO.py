@@ -1,6 +1,7 @@
 from config.dbconfig import pg_config
 import psycopg2
 
+
 class UserDAO:
 
     def __init__(self):
@@ -9,8 +10,7 @@ class UserDAO:
                           pg_config['port'], pg_config['host'])
         self.conn = psycopg2._connect(connection_url)
 
-
-###################### Read ########################
+    ###################### Read ########################
 
     def getAllUsers(self):
         cursor = self.conn.cursor()
@@ -39,7 +39,6 @@ class UserDAO:
             result.append(row)
         return result
 
-
     def getUsersByChatID(self, chat_id):
         cursor = self.conn.cursor()
         query = "select user_id, first_name, last_name from users natural join participant where chat_id = %s;"
@@ -58,11 +57,10 @@ class UserDAO:
         result = cursor.fetchone()
         return result
 
-
     def getUsersWhoLikedPost(self, post_id):
         cursor = self.conn.cursor()
         query = "select user_id, first_name, last_name, react_date from users natural inner join react" \
-                 " where post_id = %s AND react_type = 1;"
+                " where post_id = %s AND react_type = 1;"
         cursor.execute(query, (post_id,))
         result = []
         for row in cursor:
@@ -142,4 +140,21 @@ class UserDAO:
         self.conn.commit()
         cursor.close()
 
+        return result
+
+    def getTopThreeActiveUsers(self):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = ''' select username, count(user_id) as activity
+                    From (select user_id From Post 
+                    UNION ALL
+                    select user_id From Reply 
+                    UNION ALL 
+                    select user_id From React) as S natural inner join Credential as C
+                    WHERE S.user_id = C.user_id
+                    GROUP BY username
+                    ORDER BY activity DESC
+                    Limit 3'''
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
         return result

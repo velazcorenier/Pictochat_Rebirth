@@ -27,12 +27,11 @@ def getPostsByChatID(chat_id):
 
 def getPostsByChatIDForUI(chat_id):
     chat_post_messages = dao.getPostsByChatID(chat_id)
-    # if not chat_post_messages:
-    #     return jsonify(Error="No Messages Found")
     result_post_messages = []
     for row in chat_post_messages:
-        # result = Dict.post_msg_chat_dict_UI_Test(row, getRepliesByPostIDTest(row[1]))
-        result_post_messages.append(Dict.post_msg_chat_dict_UI_2(row, getRepliesByPostIDForUI(row[1])))
+        result_post_messages.append(Dict.post_msg_chat_dict_UI_2(row, getRepliesByPostIDForUI(row[1]),
+                                                                 getUsersLikedByPostId(row[1]),
+                                                                 getUsersDislikedByPostId(row[1])))
     return jsonify(PostsInChat = result_post_messages)
 
 def createPost(form):
@@ -104,6 +103,17 @@ def getPostDislikesCountByID(post_id):
     map_result["post_id"] = result[0][0]
     map_result["dislikes"] = result[0][1]
     return jsonify(PostDislikes=map_result)
+
+def getUsersLikedByPostId(post_id):
+    result = dao.getUsersLikedPostByID(post_id)
+    if not result:
+        return jsonify(Error="No users found"), 404
+    return result
+def getUsersDislikedByPostId(post_id):
+    result = dao.getUsersDislikedPostByID(post_id)
+    if not result:
+        return jsonify(Error="No users found"), 404
+    return result
 
 ###################### Reply HANDLER ############################
 
