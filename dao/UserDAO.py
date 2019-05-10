@@ -96,7 +96,7 @@ class UserDAO:
         return result
 
     def getUserCredentials(self, user_id):
-        cursor = self.conn.cursor()
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = "select * from credential where user_id = %s;"
         cursor.execute(query, (user_id,))
         result = cursor.fetchone()

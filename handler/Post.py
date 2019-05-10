@@ -2,6 +2,10 @@ from flask import jsonify, session
 from dao.PostDAO import PostDAO
 from handler import DictBuilder as Dict
 
+# temporary
+from dao.UserDAO import UserDAO
+userDao = UserDAO()
+
 dao = PostDAO()
 
 ###################### Main HANDLER ############################
@@ -78,6 +82,7 @@ def reactPost(form):
             result['post_id'] = post_id
             result['react_date'] = react_date
             result['react_type'] = react_type
+            result['username'] = userDao.getUserCredentials(user_id)['username']
 
             return jsonify(React=result), 201
         else:

@@ -135,10 +135,8 @@ def getUserCredentials(user_id):
     result = dao.getUserCredentials(user_id)
     if not result:
         return jsonify(Error = "No Credentials Found"), 404
-    result = Dict.credential_dict(result)
     return jsonify(UserCredentials = result)
 
-#def getUserByUsername(username):
 
 
 ###################### Activity HANDLER ############################
