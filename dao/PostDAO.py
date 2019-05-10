@@ -82,17 +82,6 @@ class PostDAO:
 
         return result
 
-    def dislikePost(self, user_id, post_id, react_date, react_type):
-        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        query = 'INSERT INTO React(user_id, post_id, react_date, react_type) VALUES (%s, %s, %s, %s) RETURNING post_id;'
-        cursor.execute(query, (user_id, post_id, react_date, react_type,))
-
-        result = cursor.fetchone()['post_id']
-        self.conn.commit()
-        cursor.close()
-
-        return result
-
     def getPostLikesCountByID(self, post_id):
         cursor = self.conn.cursor()
         query = "select post_id, count(*) from React where post_id = %s and react_type = 1 group by post_id;"
@@ -151,6 +140,17 @@ class PostDAO:
 
     ###################### Media DAO ############################
 
+    def insertMedia(self, post_id, media_type, location):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO Media(post_id, media_type, location) VALUES (%s, %s, %s) RETURNING media_id;'
+        cursor.execute(query, (post_id, media_type, location,))
+
+        result = cursor.fetchone()['media_id']
+        self.conn.commit()
+        cursor.close()
+
+        return result
+    
     def getMediaByPostID(self, post_id):
         cursor = self.conn.cursor()
         query = "select * from Media;"

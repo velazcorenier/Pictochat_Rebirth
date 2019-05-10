@@ -66,7 +66,6 @@ def createPost(form):
 ###################### Reaction HANDLER ############################
 
 def reactPost(form):
-    print(form)
     # Assumes form contains post_id, react_type
     if form and len(form) == 2:
         user_id = session['user_id']
@@ -143,6 +142,27 @@ def getRepliesByPostIDForUI(post_id):
 
 ###################### Media HANDLER ############################
 
+def insertMedia(form):
+    # Assumes form contains post_id, media_type, location
+    if form and len(form) == 3:
+        post_id = form['post_id']
+        media_type = 'now'
+        location = form['location']
+
+        if post_id and media_type and location:
+            media_id = dao.insertMedia(post_id, media_type, location)
+
+            result = {}
+            result['media_id'] = media_id
+            result['post_id'] = post_id
+            result['media_type'] = media_type
+            result['location'] = location
+
+            return jsonify(React=result), 201
+        else:
+            return jsonify(Error='Malformed POST request'), 400
+    else:
+        return jsonify(Error='Malformed POST request'), 400
 
 def getMediaByPostID(post_id):
     media_info = dao.getMediaByPostID(post_id)
