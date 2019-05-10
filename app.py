@@ -16,6 +16,7 @@ CORS(app)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'pictochat'
 
+
 # Check if user is logged in
 def is_logged_in(f):
     @wraps(f)
@@ -28,9 +29,11 @@ def is_logged_in(f):
 
     return wrap
 
+
 @app.route('/Pictochat')  # OK
 def homeforApp():
     return "Welcome to Pictochat"
+
 
 ###################### Users Routes ############################
 
@@ -40,17 +43,19 @@ def register():
         return User.register(request.json)
     return jsonify(Error="Method not allowed."), 405
 
+
 # Login
-@app.route('/Pictochat/users/login', methods=['GET','POST'])
+@app.route('/Pictochat/users/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         result = User.login(request.json)
         return result
     return jsonify(Error="Method not allowed."), 405
 
+
 # Logout
 @app.route('/Pictochat/users/logout')
-@is_logged_in
+# @is_logged_in
 def logout():
     session.clear()
     flash("You are now logged out.", "success")
@@ -63,7 +68,8 @@ def getAllUsers():
         result = User.getAllUsers()
         return result
     else:
-         return jsonify(Error="Method not allowed"), 405
+        return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/users/logged', methods=['GET'])
 def getAllUsersNotSession():
@@ -81,6 +87,7 @@ def getUserByID(user_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 @app.route('/Pictochat/users/username/<string:username>', methods=['GET'])
 def getUserByUsername(username):
     if request.method == 'GET':
@@ -88,6 +95,7 @@ def getUserByUsername(username):
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/post/<int:post_id>/likes', methods=['GET'])
 def getUsersWhoLikedPost(post_id):
@@ -124,6 +132,7 @@ def getAdminByChatID(chat_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 ###################### Credential Routes ######################
 
 @app.route('/Pictochat/credentials/all', methods=['GET'])
@@ -142,6 +151,7 @@ def getUserCredentialByID(user_id):
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 ###################### Activity Routes ########################
 
@@ -162,6 +172,7 @@ def getUserActivityByID(user_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 ###################### Contacts Routes ######################
 
 @app.route('/Pictochat/user/<int:user_id>/contacts', methods=['GET', 'POST'])
@@ -175,6 +186,7 @@ def getUserContactsByID(user_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 ###################### Chat Routes ############################
 
 @app.route('/Pictochat/chats/new', methods=['GET', 'POST'])
@@ -183,6 +195,7 @@ def createChat():
         User.registerActivity()
         return Chat.createChat(request.json)
     return jsonify(Error="Method not allowed."), 405
+
 
 @app.route('/Pictochat/chats/all', methods=['GET', 'POST'])
 def getAllChats():
@@ -200,6 +213,7 @@ def getChatByID(chat_id):
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/chats/<int:user_id>', methods=['GET'])
 def getChatByUserID(user_id):
@@ -221,15 +235,17 @@ def getPostsByChatID(chat_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 ###################### Post Routes ########################
 
 @app.route('/Pictochat/post/new', methods=['GET', 'POST'])
-@is_logged_in
+# @is_logged_in
 def createPost():
     if request.method == 'POST':
         User.registerActivity()
         return Post.createPost(request.json)
     return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/posts/all', methods=['GET'])
 def getAllPosts():
@@ -243,18 +259,18 @@ def getAllPosts():
 ###################### Hashtag Routes ######################
 
 
-
 ###################### Reaction Routes ############################
 
 @app.route('/Pictochat/post/react', methods=['GET', 'POST'])
-@is_logged_in
+# @is_logged_in
 def reactPost():
     if request.method == 'POST':
         User.registerActivity()
         result = Post.reactPost(request.json)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 405      
+        return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/post/<int:post_id>/count/likes', methods=['GET'])
 def getPostLikesCountByID(post_id):
@@ -273,6 +289,7 @@ def getPostDislikesCountByID(post_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 ###################### Media Routes ######################
 
 @app.route('/Pictochat/post/<int:post_id>/media', methods=['GET', 'POST'])
@@ -286,6 +303,7 @@ def getMediaByPostID(post_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 ###################### Reply Routes ########################
 
 @app.route('/Pictochat/post/<int:post_id>/replies', methods=['GET'])
@@ -295,6 +313,7 @@ def getRepliesByPostID(post_id):
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 ###################### Dashboard Routes ########################
 
@@ -307,6 +326,7 @@ def getTrendingHashtags():
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 @app.route('/Pictochat/dashboard/posts', methods=['GET'])
 def getPostPerDay():
     if request.method == 'GET':
@@ -314,6 +334,7 @@ def getPostPerDay():
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/dashboard/replies', methods=['GET'])
 def getRepliesPerDay():
@@ -341,6 +362,7 @@ def getDislikesPerDay():
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 @app.route('/Pictochat/dashboard/post/replies', methods=['GET'])
 def getRepliesPerPost():
     if request.method == 'GET':
@@ -348,6 +370,7 @@ def getRepliesPerPost():
         return jsonify(RepliesPerPost=result)
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/dashboard/post/likes', methods=['GET'])
 def getLikesPerPost():
@@ -378,4 +401,3 @@ def getTopThreeActiveUsers():
 
 if __name__ == '__main__':
     app.run('localhost')
-

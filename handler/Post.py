@@ -67,8 +67,9 @@ def createPost(form):
 
 def reactPost(form):
     # Assumes form contains post_id, react_type
-    if form and len(form) == 2:
-        user_id = session['user_id']
+    if form and len(form) >= 2: # For Debugging
+        # user_id = session['user_id'] //use when session is working
+        user_id = form['user_id']
         post_id = form['post_id']
         react_date = 'now'
         react_type = form['react_type']
