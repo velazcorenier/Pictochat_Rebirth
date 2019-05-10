@@ -54,9 +54,9 @@ def createPost(form):
 
             return jsonify(Post=result), 201
         else:
-            return jsonify(Error='Malformed POST request')
+            return jsonify(Error='Malformed POST request'), 400
     else:
-        return jsonify(Error='Malformed POST request')
+        return jsonify(Error='Malformed POST request'), 400
 
 
 ###################### Reaction HANDLER ############################
@@ -81,9 +81,9 @@ def reactPost(form):
 
             return jsonify(React=result), 201
         else:
-            return jsonify(Error='Malformed POST request')
+            return jsonify(Error='Malformed POST request'), 400
     else:
-        return jsonify(Error='Malformed POST request')
+        return jsonify(Error='Malformed POST request'), 400
 
 
 def getPostLikesCountByID(post_id):
@@ -122,7 +122,7 @@ def getUsersDislikedByPostId(post_id):
 def getRepliesByPostID(post_id):
     replies_info = dao.getRepliesByPostID(post_id)
     if not replies_info:
-        return jsonify(Error="No Replies Found")
+        return jsonify(Error="No Replies Found"), 404
     result_replies = []
     for row in replies_info:
         result = Dict.reply_dict(row)
@@ -142,7 +142,7 @@ def getRepliesByPostIDForUI(post_id):
 def getMediaByPostID(post_id):
     media_info = dao.getMediaByPostID(post_id)
     if not media_info:
-        return jsonify(Error="No Messages Found")
+        return jsonify(Error="No Messages Found"), 404
     result_media = []
     for row in media_info:
         result = Dict.media_dict(row)

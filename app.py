@@ -66,7 +66,7 @@ def getAllUsers():
         result = User.addUser(request.json)
         return result
     else:
-         return jsonify(Error="Method not allowed"), 404
+         return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/users/<int:user_id>', methods=['GET'])
 def getUserByID(user_id):
@@ -74,7 +74,7 @@ def getUserByID(user_id):
         result = User.getUserInfo(user_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/users/username/<string:username>', methods=['GET'])
 def getUserByUsername(username):
@@ -82,7 +82,7 @@ def getUserByUsername(username):
         result = User.getUserByUsername(username)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/post/<int:post_id>/likes', methods=['GET'])
 def getUsersWhoLikedPost(post_id):
@@ -90,7 +90,7 @@ def getUsersWhoLikedPost(post_id):
         result = User.getUsersWhoLikedPost(post_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/post/<int:post_id>/dislikes', methods=['GET'])
@@ -99,7 +99,7 @@ def getUsersWhoDislikedPost(post_id):
         result = User.getUsersWhoDislikedPost(post_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/chat/<int:chat_id>/users', methods=['GET'])
@@ -108,7 +108,7 @@ def getUsersByChatID(chat_id):
         result = User.getUsersByChatID(chat_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/chat/<int:chat_id>/admin', methods=['GET'])
@@ -117,7 +117,7 @@ def getAdminByChatID(chat_id):
         result = User.getAdminByChatID(chat_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 ###################### Credential Routes ######################
 
@@ -127,7 +127,7 @@ def getCredentials():
         result = User.getAllCredentials()
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/credentials/user/<int:user_id>', methods=['GET'])
@@ -136,7 +136,7 @@ def getUserCredentialByID(user_id):
         result = User.getUserCredentials(user_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 ###################### Activity Routes ########################
 
@@ -146,7 +146,7 @@ def getAllActivities():
         result = User.getAllActivity()
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/activity/user/<int:user_id>', methods=['GET'])
@@ -155,7 +155,7 @@ def getUserActivityByID(user_id):
         result = User.getUserActivity(user_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 ###################### Contacts Routes ######################
 
@@ -168,7 +168,7 @@ def getUserContactsByID(user_id):
         result = User.addContact(request.json)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 ###################### Chat Routes ############################
 
@@ -184,7 +184,7 @@ def getAllChats():
         result = Chat.getAllChats()
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/chat/<int:chat_id>', methods=['GET'])
@@ -193,7 +193,7 @@ def getChatByID(chat_id):
         result = Chat.getChatByID(chat_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/chats/<int:user_id>', methods=['GET'])
 def getChatByUserID(user_id):
@@ -201,7 +201,7 @@ def getChatByUserID(user_id):
         result = Chat.getChatByUserID(user_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/chat/<int:chat_id>/posts', methods=['GET', 'POST'])
@@ -213,7 +213,7 @@ def getPostsByChatID(chat_id):
         result = Post.insertMessage(request.json)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 ###################### Post Routes ########################
 
@@ -222,7 +222,7 @@ def getPostsByChatID(chat_id):
 def createPost():
     if request.method == 'POST':
         return Post.createPost(request.json)
-    return jsonify(Error="Method not allowed"), 404
+    return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/posts/all', methods=['GET'])
 def getAllPosts():
@@ -230,7 +230,7 @@ def getAllPosts():
         result = Post.getAllPost()
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 ###################### Hashtag Routes ######################
@@ -239,14 +239,14 @@ def getAllPosts():
 
 ###################### Reaction Routes ############################
 
-@app.route('/Pictochat/post/like', methods=['GET', 'POST'])
+@app.route('/Pictochat/post/react', methods=['GET', 'POST'])
 @is_logged_in
 def reactPost():
     if request.method == 'POST':
         result = Post.reactPost(request.json)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404      
+        return jsonify(Error="Method not allowed"), 405      
 
 @app.route('/Pictochat/post/<int:post_id>/count/likes', methods=['GET'])
 def getPostLikesCountByID(post_id):
@@ -254,7 +254,7 @@ def getPostLikesCountByID(post_id):
         result = Post.getPostLikesCountByID(post_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/post/<int:post_id>/count/dislikes', methods=['GET'])
@@ -263,7 +263,7 @@ def getPostDislikesCountByID(post_id):
         result = Post.getPostDislikesCountByID(post_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 ###################### Media Routes ######################
 
@@ -276,7 +276,7 @@ def getMediaByPostID(post_id):
         result = Post.insertMedia(request.json)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 ###################### Reply Routes ########################
 
@@ -286,7 +286,7 @@ def getRepliesByPostID(post_id):
         result = Post.getRepliesByPostID(post_id)
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 ###################### Dashboard Routes ########################
 
@@ -297,7 +297,7 @@ def getTrendingHashtags():
         result = Post.getTrendingHashtags()
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/dashboard/posts', methods=['GET'])
 def getPostPerDay():
@@ -305,7 +305,7 @@ def getPostPerDay():
         result = Post.getPostPerDay()
         return result
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/dashboard/replies', methods=['GET'])
 def getRepliesPerDay():
@@ -313,7 +313,7 @@ def getRepliesPerDay():
         result = postDao.getRepliesPerDay()
         return jsonify(RepliesPerDay=result)
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/dashboard/likes', methods=['GET'])
@@ -322,7 +322,7 @@ def getLikesPerDay():
         result = postDao.getLikesPerDay()
         return jsonify(LikesPerDay=result)
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/dashboard/dislikes', methods=['GET'])
@@ -331,7 +331,7 @@ def getDislikesPerDay():
         result = postDao.getDislikesPerDay()
         return jsonify(DislikesPerDay=result)
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/dashboard/post/replies', methods=['GET'])
 def getRepliesPerPost():
@@ -339,7 +339,7 @@ def getRepliesPerPost():
         result = postDao.getRepliesPerPost()
         return jsonify(RepliesPerPost=result)
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/dashboard/post/likes', methods=['GET'])
 def getLikesPerPost():
@@ -347,7 +347,7 @@ def getLikesPerPost():
         result = postDao.getLikesPerPost()
         return jsonify(LikesPerPost=result)
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/dashboard/post/dislikes', methods=['GET'])
@@ -356,7 +356,7 @@ def getDislikesPerPost():
         result = postDao.getDislikesPerPost()
         return jsonify(DislikesPerPost=result)
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 @app.route('/Pictochat/dashboard/user/active', methods=['GET'])
@@ -365,7 +365,7 @@ def getTopThreeActiveUsers():
         result = userDao.getTopThreeActiveUsers()
         return jsonify(TopThreeActiveUsers=result)
     else:
-        return jsonify(Error="Method not allowed"), 404
+        return jsonify(Error="Method not allowed"), 405
 
 
 if __name__ == '__main__':

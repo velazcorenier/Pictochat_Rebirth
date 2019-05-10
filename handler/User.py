@@ -28,11 +28,11 @@ def register(form):
             result['email'] = email
             result['phone'] = [phone]
 
-            return jsonify(Supplier=result), 201
+            return jsonify(User=result), 201
         else:
-            return jsonify(Error='Malformed POST request')
+            return jsonify(Error='Malformed POST request'), 400
     else:
-        return jsonify(Error='Malformed POST request')
+        return jsonify(Error='Malformed POST request'), 400
 
 def login(form):
     if form and len(form) == 2:
@@ -49,21 +49,21 @@ def login(form):
                 session['logged_in'] = True
                 session['username'] = username
                 session['user_id'] = user['user_id']
-                
+
                 flash('You are now logged in.', 'success')
                 return jsonify(User=user), 201
             else:
                 flash('Invalid login.', 'danger')
-            return jsonify(Error='Invalid login.')
+            return jsonify(Error='Invalid login.'), 404
         else:
-            return jsonify(Error='Username Not Found.')
+            return jsonify(Error='Username Not Found.'), 404
     else:
-        return jsonify(Error='Malformed POST request')
+        return jsonify(Error='Malformed POST request'), 400
 
 def getAllUsers():
     result = dao.getAllUsers()
     if not result:
-        return jsonify(Error ="No Users Found")
+        return jsonify(Error ="No Users Found"), 404
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.user_dict(row))
@@ -72,14 +72,14 @@ def getAllUsers():
 def getUserInfo(user_id):
     result = dao.getUserInfo(user_id)
     if not result:
-        return jsonify(Error ="No User Found")
+        return jsonify(Error ="No User Found"), 404
     result = Dict.user_dict(result)
     return jsonify(UserInfo = result)
 
 def getUserContactsByID(user_id):
     result = dao.getUserContactsByID(user_id)
     if not result:
-        return jsonify(Error="No Contacts Found")
+        return jsonify(Error="No Contacts Found"), 404
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.contacts_dict(row))
@@ -88,7 +88,7 @@ def getUserContactsByID(user_id):
 def getUsersByChatID(chat_id):
     result = dao.getUsersByChatID(chat_id)
     if not result:
-        return jsonify(Error = "No Users Found")
+        return jsonify(Error = "No Users Found"), 404
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.chat_participants_dict(row))
@@ -97,14 +97,14 @@ def getUsersByChatID(chat_id):
 def getAdminByChatID(chat_id):
     result = dao.getAdminByChatID(chat_id)
     if not result:
-        return jsonify(Error="No Admin Found")
+        return jsonify(Error="No Admin Found"), 404
     mapped_result = Dict.chat_admin_dict(result)
     return jsonify(Admin=mapped_result)
 
 def getUsersWhoLikedPost(post_id):
     result = dao.getUsersWhoLikedPost(post_id)
     if not result:
-        return jsonify(Error="No Users Found")
+        return jsonify(Error="No Users Found"), 404
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.reaction_user_dict(row))
@@ -113,7 +113,7 @@ def getUsersWhoLikedPost(post_id):
 def getUsersWhoDislikedPost(post_id):
     result = dao.getUsersWhoDislikedPost(post_id)
     if not result:
-        return jsonify(Error = "No Users Found")
+        return jsonify(Error = "No Users Found"), 404
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.reaction_user_dict(row))
@@ -124,7 +124,7 @@ def getUsersWhoDislikedPost(post_id):
 def getAllCredentials():
     result = dao.getAllCredentials()
     if not result:
-        return jsonify(Error ="No Credentials Found")
+        return jsonify(Error ="No Credentials Found"), 404
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.credential_dict(row))
@@ -134,7 +134,7 @@ def getAllCredentials():
 def getUserCredentials(user_id):
     result = dao.getUserCredentials(user_id)
     if not result:
-        return jsonify(Error = "No Credentials Found")
+        return jsonify(Error = "No Credentials Found"), 404
     result = Dict.credential_dict(result)
     return jsonify(UserCredentials = result)
 
@@ -146,7 +146,7 @@ def getUserCredentials(user_id):
 def getAllActivity():
     result = dao.getAllActivity()
     if not result:
-        return jsonify(Error="No Activity Found")
+        return jsonify(Error="No Activity Found"), 404
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.activity_dict(row))
@@ -155,7 +155,7 @@ def getAllActivity():
 def getUserActivity(user_id):
     result = dao.getUserActivity(user_id)
     if not result:
-        return jsonify(Error = "No Activity Found")
+        return jsonify(Error = "No Activity Found"), 404
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.activity_dict(row))
@@ -165,5 +165,5 @@ def getUserByUsername(username):
     user = dao.getUserByUsername(username)
 
     if not user:
-        return jsonify(Error="No User Found")
+        return jsonify(Error="No User Found"), 404
     return jsonify(User=user)
