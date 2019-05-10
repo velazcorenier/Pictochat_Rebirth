@@ -170,3 +170,4 @@ def getUserByUsername(username):
     result = Dict.credential_dict(user)
 
     return jsonify(User=result)
+

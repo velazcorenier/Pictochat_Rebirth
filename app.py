@@ -5,9 +5,10 @@ from handler import Chat
 from handler import Post
 from handler import User
 from dao.PostDAO import PostDAO
+from dao.UserDAO import UserDAO
 
 postDao = PostDAO()
-
+userDao = UserDAO()
 
 app = Flask(__name__)
 CORS(app)
@@ -348,8 +349,13 @@ def getDislikesPerPost():
         return jsonify(Error="Method not allowed"), 404
 
 
-
-
+@app.route('/Pictochat/dashboard/user/active', methods=['GET'])
+def getTopThreeActiveUsers():
+    if request.method == 'GET':
+        result = userDao.getTopThreeActiveUsers()
+        return jsonify(TopThreeActiveUsers=result)
+    else:
+        return jsonify(Error="Method not allowed"), 404
 
 
 if __name__ == '__main__':
