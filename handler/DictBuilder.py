@@ -85,7 +85,7 @@ def post_msg_chat_dict_UI(postChatInfo):
     post_chat_UI["dislikes"] = postChatInfo[9]
     return post_chat_UI
 
-def post_msg_chat_dict_UI_2(postChatInfo, replies):
+def post_msg_chat_dict_UI_2(postChatInfo, replies, likedBy, dislikedBy):
     # chat_id, chat_name, admin
     post_chat_UI = {}
     post_chat_UI["chatId"] = postChatInfo[0]
@@ -99,6 +99,8 @@ def post_msg_chat_dict_UI_2(postChatInfo, replies):
     post_chat_UI["likes"] = postChatInfo[8]
     post_chat_UI["dislikes"] = postChatInfo[9]
     post_chat_UI["replies"] = replies
+    post_chat_UI["likedBy"] = likedBy
+    post_chat_UI["dislikedBy"] = dislikedBy
     return post_chat_UI
 
 def participants_dict(chatParticipant):
