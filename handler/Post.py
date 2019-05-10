@@ -39,7 +39,7 @@ def createPost(form):
     if form and len(form) == 3:
         post_msg = form['post_msg']
         post_date = 'now'
-        user_id = form['user_id']
+        user_id = session['user_id']
         chat_id = form['chat_id']
 
         if post_msg and post_date and user_id and chat_id:
@@ -61,7 +61,7 @@ def createPost(form):
 
 ###################### Reaction HANDLER ############################
 
-def likePost(form):
+def reactPost(form):
     # Assumes form contains post_id, react_type
     if form and len(form) == 2:
         user_id = session['user_id']
@@ -70,7 +70,7 @@ def likePost(form):
         react_type = form['react_type']
 
         if user_id and post_id and react_date and react_type:
-            post_id = dao.likePost(user_id, post_id, react_date, react_type)
+            post_id = dao.reactPost(user_id, post_id, react_date, react_type)
 
             result = {}
             result['user_id'] = user_id
@@ -78,7 +78,7 @@ def likePost(form):
             result['react_date'] = react_date
             result['react_type'] = react_type
 
-            return jsonify(Post=result), 201
+            return jsonify(React=result), 201
         else:
             return jsonify(Error='Malformed POST request')
     else:

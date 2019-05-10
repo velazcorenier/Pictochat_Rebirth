@@ -55,7 +55,34 @@ class PostDAO:
 
     ###################### Reaction DAO ############################
 
-    def likePost(self, user_id, post_id, react_date, react_type):
+    def reactPost(self, user_id, post_id, react_date, react_type):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'SELECT * FROM React WHERE user_id = %s and post_id = %s'
+        cursor.execute(query, (user_id, post_id))
+        result = cursor.fetchone()
+
+        if result:
+            # Reaction already in table
+            if result['react_type'] == int(react_type):
+                # If reaction is the same, remove
+                query = 'DELETE FROM React WHERE user_id = %s and post_id = %s RETURNING post_id;'
+                cursor.execute(query, (user_id, post_id))
+            if result['react_type'] != int(react_type):
+                # If it's a dislike, change to like
+                query = 'UPDATE React SET react_type=%s WHERE user_id = %s and post_id =%s RETURNING post_id'  
+                cursor.execute(query, (react_type, user_id, post_id))
+        else:
+            # Reaction not in table
+            query = 'INSERT INTO React(user_id, post_id, react_date, react_type) VALUES (%s, %s, %s, %s) RETURNING post_id;'
+            cursor.execute(query, (user_id, post_id, react_date, react_type,))
+
+        result = cursor.fetchone()['post_id']
+        self.conn.commit()
+        cursor.close()
+
+        return result
+
+    def dislikePost(self, user_id, post_id, react_date, react_type):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = 'INSERT INTO React(user_id, post_id, react_date, react_type) VALUES (%s, %s, %s, %s) RETURNING post_id;'
         cursor.execute(query, (user_id, post_id, react_date, react_type,))

@@ -49,7 +49,7 @@ def login(form):
                 session['logged_in'] = True
                 session['username'] = username
                 session['user_id'] = user['user_id']
-
+                
                 flash('You are now logged in.', 'success')
                 return jsonify(User=user), 201
             else:
@@ -166,5 +166,4 @@ def getUserByUsername(username):
 
     if not user:
         return jsonify(Error="No User Found")
-
     return jsonify(User=user)

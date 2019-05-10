@@ -217,7 +217,8 @@ def getPostsByChatID(chat_id):
 
 ###################### Post Routes ########################
 
-@app.route('/Pictochat/post/new')
+@app.route('/Pictochat/post/new', methods=['GET', 'POST'])
+@is_logged_in
 def createPost():
     if request.method == 'POST':
         return Post.createPost(request.form)
@@ -239,9 +240,10 @@ def getAllPosts():
 ###################### Reaction Routes ############################
 
 @app.route('/Pictochat/post/like', methods=['GET', 'POST'])
-def likePost():
+@is_logged_in
+def reactPost():
     if request.method == 'POST':
-        result = Post.likePost(request.form)
+        result = Post.reactPost(request.form)
         return result
     else:
         return jsonify(Error="Method not allowed"), 404      
