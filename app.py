@@ -237,6 +237,14 @@ def getAllPosts():
 
 ###################### Reaction Routes ############################
 
+@app.route('/Pictochat/post/like', methods=['GET', 'POST'])
+def likePost():
+    if request.method == 'POST':
+        result = Post.likePost(request.form)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 404      
+
 @app.route('/Pictochat/post/<int:post_id>/count/likes', methods=['GET'])
 def getPostLikesCountByID(post_id):
     if request.method == 'GET':

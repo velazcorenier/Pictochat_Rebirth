@@ -167,6 +167,4 @@ def getUserByUsername(username):
     if not user:
         return jsonify(Error="No User Found")
 
-    result = Dict.credential_dict(user)
-
-    return jsonify(User=result)
+    return jsonify(User=user)

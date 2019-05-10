@@ -49,10 +49,22 @@ class PostDAO:
         result = cursor.fetchone()['post_id']
         self.conn.commit()
         cursor.close()
+
         return result
 
 
     ###################### Reaction DAO ############################
+
+    def likePost(self, user_id, post_id, react_date, react_type):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO React(user_id, post_id, react_date, react_type) VALUES (%s, %s, %s, %s) RETURNING post_id;'
+        cursor.execute(query, (user_id, post_id, react_date, react_type,))
+
+        result = cursor.fetchone()['post_id']
+        self.conn.commit()
+        cursor.close()
+
+        return result
 
     def getPostLikesCountByID(self, post_id):
         cursor = self.conn.cursor()

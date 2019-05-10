@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, session
 from dao.PostDAO import PostDAO
 from handler import DictBuilder as Dict
 
@@ -36,15 +36,15 @@ def getPostsByChatIDForUI(chat_id):
     return jsonify(PostsInChat = result_post_messages)
 
 def createPost(form):
-    # Assumes form contains post_msg, post_date, user_id, chat_id
-    if form and len(form) == 4:
+    # Assumes form contains post_msg, user_id, chat_id
+    if form and len(form) == 3:
         post_msg = form['post_msg']
-        post_date = form['post_date']
+        post_date = 'now'
         user_id = form['user_id']
         chat_id = form['chat_id']
 
         if post_msg and post_date and user_id and chat_id:
-            post_id = dao.createChat(post_msg, post_date, user_id, chat_id)
+            post_id = dao.createPost(post_msg, post_date, user_id, chat_id)
 
             result = {}
             result['post_id'] = post_id
@@ -61,6 +61,29 @@ def createPost(form):
 
 
 ###################### Reaction HANDLER ############################
+
+def likePost(form):
+    # Assumes form contains post_id, react_type
+    if form and len(form) == 2:
+        user_id = session['user_id']
+        post_id = form['post_id']
+        react_date = 'now'
+        react_type = form['react_type']
+
+        if user_id and post_id and react_date and react_type:
+            post_id = dao.likePost(user_id, post_id, react_date, react_type)
+
+            result = {}
+            result['user_id'] = user_id
+            result['post_id'] = post_id
+            result['react_date'] = react_date
+            result['react_type'] = react_type
+
+            return jsonify(Post=result), 201
+        else:
+            return jsonify(Error='Malformed POST request')
+    else:
+        return jsonify(Error='Malformed POST request')
 
 
 def getPostLikesCountByID(post_id):
