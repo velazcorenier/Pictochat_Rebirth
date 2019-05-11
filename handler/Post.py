@@ -2,6 +2,10 @@ from flask import jsonify, session
 from dao.PostDAO import PostDAO
 from handler import DictBuilder as Dict
 
+# For file saving
+import os
+from werkzeug.utils import secure_filename
+
 # temporary
 from dao.UserDAO import UserDAO
 
@@ -43,9 +47,9 @@ def getPostsByChatIDForUI(chat_id):
     return jsonify(PostsInChat=result_post_messages)
 
 
-def createPost(form):
+def createPost(form, file, path):
     # Assumes form contains post_msg, user_id, chat_id
-    if form and len(form) == 3:
+    if form and file and len(form) == 3:
         post_msg = form['post_msg']
         post_date = 'now'
         user_id = session['user_id']
@@ -56,6 +60,14 @@ def createPost(form):
 
             # Register Hashtags
             insertHashtag(post_msg, post_id)
+
+            # Upload file
+            file_secure_name = secure_filename(file.filename)
+            file_path = os.path.join(path, file_secure_name)
+            file.save(os.path.join(os.getcwd(), file_path[1:]))
+
+            # Register in Media table
+            insertMedia(post_id, 'P', file_path)
 
             result = {}
             result['post_id'] = post_id
@@ -182,25 +194,18 @@ def getRepliesByPostIDForUI(post_id):
 
 ###################### Media HANDLER ############################
 
-def insertMedia(form):
+def insertMedia(post_id, media_type, location):
     # Assumes form contains post_id, media_type, location
-    if form and len(form) == 3:
-        post_id = form['post_id']
-        media_type = 'now'
-        location = form['location']
+    if post_id and media_type and location:
+        media_id = dao.insertMedia(post_id, media_type, location)
 
-        if post_id and media_type and location:
-            media_id = dao.insertMedia(post_id, media_type, location)
+        result = {}
+        result['media_id'] = media_id
+        result['post_id'] = post_id
+        result['media_type'] = media_type
+        result['location'] = location
 
-            result = {}
-            result['media_id'] = media_id
-            result['post_id'] = post_id
-            result['media_type'] = media_type
-            result['location'] = location
-
-            return jsonify(Media=result), 201
-        else:
-            return jsonify(Error='Malformed POST request'), 400
+        return jsonify(Media=result), 201
     else:
         return jsonify(Error='Malformed POST request'), 400
 

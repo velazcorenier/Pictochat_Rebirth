@@ -6,6 +6,7 @@ from handler import Post
 from handler import User
 from dao.PostDAO import PostDAO
 from dao.UserDAO import UserDAO
+import os
 
 postDao = PostDAO()
 userDao = UserDAO()
@@ -15,6 +16,8 @@ CORS(app, supports_credentials=True)
 
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'pictochat'
+app.config['UPLOAD_FOLDER'] = '/static'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 # Check if user is logged in
 def is_logged_in(f):
@@ -27,6 +30,10 @@ def is_logged_in(f):
             return jsonify(Error="Unauthorized, please log in."), 404
 
     return wrap
+
+# Check file extension
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/Pictochat')  # OK
 def homeforApp():
@@ -196,7 +203,7 @@ def getUserContactsByID(user_id):
 def createChat():
     if request.method == 'POST':
         User.registerActivity()
-        return Chat.createChat(request.json)
+        return Chat.createChat(request)
     return jsonify(Error="Method not allowed."), 405
 
 
@@ -246,8 +253,10 @@ def getPostsByChatID(chat_id):
 @is_logged_in
 def createPost():
     if request.method == 'POST':
-        User.registerActivity()
-        return Post.createPost(request.json)
+        if allowed_file(request.files['file'].filename):
+            User.registerActivity()
+            return Post.createPost(request.form, request.files['file'], app.config['UPLOAD_FOLDER'])
+        return jsonify(Error="File extension not allowed"), 405
     return jsonify(Error="Method not allowed"), 405
 
 
