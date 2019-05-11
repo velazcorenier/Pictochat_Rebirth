@@ -66,8 +66,7 @@ class UserDAO:
 
     def getUsersWhoLikedPost(self, post_id):
         cursor = self.conn.cursor()
-        query = "select user_id, first_name, last_name, react_date from users natural inner join react" \
-                " where post_id = %s AND react_type = 1;"
+        query = '''select user_id, username,first_name, last_name, react_date from users natural inner join react natural inner join credential where post_id = %s AND react_type = 1;'''
         cursor.execute(query, (post_id,))
         result = []
         for row in cursor:
@@ -76,8 +75,7 @@ class UserDAO:
 
     def getUsersWhoDislikedPost(self, post_id):
         cursor = self.conn.cursor()
-        query = "select user_id, first_name, last_name, react_date from users natural inner join react" \
-                " where post_id = %s AND react_type = -1;"
+        query = '''select user_id, username,first_name, last_name, react_date from users natural inner join react natural inner join credential where post_id = %s AND react_type = -1;'''
         cursor.execute(query, (post_id,))
         result = []
         for row in cursor:

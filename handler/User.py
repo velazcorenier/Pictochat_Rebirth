@@ -114,7 +114,7 @@ def getUsersWhoLikedPost(post_id):
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.reaction_user_dict(row))
-    return jsonify(UsersLikedPost = mapped_result)
+    return jsonify(UsersLikedPost=mapped_result)
 
 def getUsersWhoDislikedPost(post_id):
     result = dao.getUsersWhoDislikedPost(post_id)
@@ -123,7 +123,7 @@ def getUsersWhoDislikedPost(post_id):
     mapped_result = []
     for row in result:
         mapped_result.append(Dict.reaction_user_dict(row))
-    return jsonify(UsersDislikedPost = mapped_result)
+    return jsonify(UsersDislikedPost=mapped_result)
 
 def getUserByUsername(username):
     user = dao.getUserByUsername(username)

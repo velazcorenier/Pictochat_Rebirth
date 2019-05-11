@@ -133,7 +133,7 @@ class PostDAO:
         query = 'INSERT INTO Reply(reply_msg, reply_date, user_id, post_id) VALUES (%s, %s, %s, %s) RETURNING reply_id, reply_date;'
         cursor.execute(query, (reply_msg, reply_date, user_id, post_id,))
 
-        result = cursor.fetchone()['reply_id'], cursor.fetchone()['reply_date']
+        result = cursor.fetchone()
         self.conn.commit()
         cursor.close()
 
