@@ -83,9 +83,9 @@ def createPost(form, file, path):
             result['postDate'] = post_date
             result['mediaId'] = media['media_id']
             result['mediaLocation'] = media['location']
-            result['likes'] = dao.getPostLikesCountByID(post_id)[0][1]
-            result['dislikes'] = dao.getPostDislikesCountByID(post_id)[0][1]
-            result['replies'] = getRepliesByPostIDForUI(post_id)
+            result['likes'] = 0
+            result['dislikes'] = 0
+            result['replies'] = ''
 
             return jsonify(Post=result), 201
         else:
