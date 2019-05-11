@@ -73,7 +73,7 @@ def addParticipants(form):
         participants = form['participants']
 
         for participant in participants:
-            chat_id = dao.addParticipant(chat_id, participant['user_id'])
+            chat_id = dao.addParticipant(chat_id, participant)
 
         return getParticipants(chat_id)
     else:

@@ -112,13 +112,9 @@ def getPostDislikesCountByID(post_id):
 
 def getUsersLikedByPostId(post_id):
     result = dao.getUsersLikedPostByID(post_id)
-    if not result:
-        return jsonify(Error="No users found"), 404
     return result
 def getUsersDislikedByPostId(post_id):
     result = dao.getUsersDislikedPostByID(post_id)
-    if not result:
-        return jsonify(Error="No users found"), 404
     return result
 
 ###################### Reply HANDLER ############################
@@ -181,7 +177,7 @@ def insertMedia(form):
             result['media_type'] = media_type
             result['location'] = location
 
-            return jsonify(React=result), 201
+            return jsonify(Media=result), 201
         else:
             return jsonify(Error='Malformed POST request'), 400
     else:
