@@ -107,6 +107,7 @@ class PostDAO:
 
         return result
 
+    # No se usa
     def getUsersLikedPostByID(self, post_id):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = "select user_id as userId, username as username from React natural inner join credential where post_id = %s and react_type = 1;"
@@ -118,6 +119,7 @@ class PostDAO:
 
         return result
 
+    # No se usa
     def getUsersDislikedPostByID(self, post_id):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = "select user_id as userId, username as username from React natural inner join credential where post_id = %s and react_type = -1;"
