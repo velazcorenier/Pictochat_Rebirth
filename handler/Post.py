@@ -98,7 +98,6 @@ def createPost(form, file, path):
 
 def reactPost(form):
     # Assumes form contains post_id, react_type
-    print(form)
     if form and len(form) >= 2:  # For Debugging
         user_id = session['user_id'] 
         post_id = form['post_id']
@@ -115,11 +114,11 @@ def reactPost(form):
             result['react_type'] = react_type
             result['username'] = userDao.getUserCredentials(user_id)['username']
 
-            totalLikes = dao.getPostLikesCountByID(post_id)['likes']
-            result['totalLikes'] = totalLikes if totalLikes else 0
+            totalLikes = dao.getPostLikesCountByID(post_id)
+            result['totalLikes'] = totalLikes['likes'] if totalLikes else 0
 
-            totalDislikes = dao.getPostDislikesCountByID(post_id)['dislikes']
-            result['totalDislikes'] = totalDislikes if totalDislikes else 0
+            totalDislikes = dao.getPostDislikesCountByID(post_id)
+            result['totalDislikes'] = totalDislikes['dislikes'] if totalDislikes else 0
 
             return jsonify(React=result), 201
         else:
