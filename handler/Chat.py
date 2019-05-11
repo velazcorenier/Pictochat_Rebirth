@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, session
 from dao.ChatDAO import ChatDAO
 from handler import DictBuilder as Dict
 
@@ -37,7 +37,8 @@ def createChat(form):
     # Assumes form contains chat_name, admin
     if form and len(form) >= 2: # == 2
         chat_name = form['chat_name']
-        admin = form['admin'] # session['user_id']
+        #admin = form['admin'] # 
+        admin = session['user_id']
 
         if admin and chat_name:
             chat_id = dao.createChat(chat_name, admin)
