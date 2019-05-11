@@ -246,7 +246,7 @@ def getPostsByChatID(chat_id):
 def createPost():
     if request.method == 'POST':
         # User.registerActivity()
-        return Post.createPost(request.json)
+        return Post.createPost(request.form)
     return jsonify(Error="Method not allowed"), 405
 
 
