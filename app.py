@@ -289,8 +289,15 @@ def getPostDislikesCountByID(post_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+###################### Participant Routes ######################
 
-###################### Media Routes ######################
+@app.route('/Pictochat/chat/addparticipants', methods=['GET', 'POST'])
+def addParticipants():
+    if request.method == 'POST':
+        result = Chat.addParticipants(request.json)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/post/<int:post_id>/media', methods=['GET', 'POST'])
 def getMediaByPostID(post_id):
