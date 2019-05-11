@@ -61,7 +61,6 @@ def createChat(form):
 
 def getParticipants(chat_id):
     participants = dao.getParticipants(chat_id)
-    print(participants)
     if participants:
         return jsonify(Participants=participants)
     else:
@@ -73,10 +72,7 @@ def addParticipants(form):
         chat_id = form['chat_id']
         participants = form['participants']
 
-        print(form)
-
         for participant in participants:
-            print(participant)
             chat_id = dao.addParticipant(chat_id, participant)
 
         return getParticipants(chat_id)
