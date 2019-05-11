@@ -190,6 +190,7 @@ def getUserContactsByID(user_id):
 ###################### Chat Routes ############################
 
 @app.route('/Pictochat/chats/new', methods=['GET', 'POST'])
+@is_logged_in
 def createChat():
     if request.method == 'POST':
         User.registerActivity()
@@ -239,7 +240,7 @@ def getPostsByChatID(chat_id):
 ###################### Post Routes ########################
 
 @app.route('/Pictochat/post/new', methods=['GET', 'POST'])
-# @is_logged_in
+@is_logged_in
 def createPost():
     if request.method == 'POST':
         User.registerActivity()
@@ -312,6 +313,16 @@ def getMediaByPostID(post_id):
 
 
 ###################### Reply Routes ########################
+
+@app.route('/Pictochat/post/reply', methods=['GET', 'POST'])
+@is_logged_in
+def reply():
+    if request.method == 'POST':
+        User.registerActivity()
+        result = Post.reply(request.json)
+        return result
+    else:
+        return jsonify(Error="Method not allowed"), 405
 
 @app.route('/Pictochat/post/<int:post_id>/replies', methods=['GET'])
 def getRepliesByPostID(post_id):

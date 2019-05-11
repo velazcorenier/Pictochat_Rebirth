@@ -128,6 +128,18 @@ class PostDAO:
 
     ###################### Replies DAO ############################
 
+    def reply(self, reply_msg, reply_date, user_id, post_id):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO Reply(reply_msg, reply_date, user_id, post_id) VALUES (%s, %s, %s, %s) RETURNING reply_id;'
+        cursor.execute(query, (reply_msg, reply_date, user_id, post_id,))
+
+        result = cursor.fetchone()['reply_id']
+        self.conn.commit()
+        cursor.close()
+
+        return result
+
+
     def getRepliesByPostID(self, post_id):
         cursor = self.conn.cursor()
         query = '''select reply_id, reply_msg, reply_date, username 

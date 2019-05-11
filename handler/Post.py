@@ -123,6 +123,28 @@ def getUsersDislikedByPostId(post_id):
 
 ###################### Reply HANDLER ############################
 
+def reply(form):
+    # Assumes form contains reply_msg, user_id, post_id
+    if form and len(form) >= 3: # For Debugging
+        reply_msg = form['reply_msg']
+        reply_date = 'now'
+        user_id = form['user_id'] # session['user_id']
+        post_id = form['post_id'] 
+
+        if reply_msg and reply_date and user_id and post_id:
+            reply_id = dao.reply(reply_msg, reply_date, user_id, post_id)
+
+            result = {}
+            result['reply_msg'] = reply_msg
+            result['reply_date'] = reply_date
+            result['user_id'] = user_id
+            result['post_id'] = post_id
+            
+            return jsonify(Reply=result), 201
+        else:
+            return jsonify(Error='Malformed POST request'), 400
+    else:
+        return jsonify(Error='Malformed POST request'), 400
 
 def getRepliesByPostID(post_id):
     replies_info = dao.getRepliesByPostID(post_id)
