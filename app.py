@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request, session, flash
-from flask_session import Session
 from flask_cors import CORS, cross_origin
 from functools import wraps
 from handler import Chat
@@ -16,8 +15,6 @@ CORS(app, supports_credentials=True)
 
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'pictochat'
-#Session(app)
-
 
 # Check if user is logged in
 def is_logged_in(f):
@@ -56,6 +53,7 @@ def login():
 
 # Logout
 @app.route('/Pictochat/users/logout')
+@cross_origin(supports_credentials=True)
 @is_logged_in
 def logout():
     session.clear()
@@ -197,7 +195,7 @@ def getUserContactsByID(user_id):
 @is_logged_in
 def createChat():
     if request.method == 'POST':
-        # User.registerActivity()
+        User.registerActivity()
         return Chat.createChat(request.json)
     return jsonify(Error="Method not allowed."), 405
 
@@ -244,10 +242,11 @@ def getPostsByChatID(chat_id):
 ###################### Post Routes ########################
 
 @app.route('/Pictochat/post/new', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 @is_logged_in
 def createPost():
     if request.method == 'POST':
-        # User.registerActivity()
+        User.registerActivity()
         return Post.createPost(request.json)
     return jsonify(Error="Method not allowed"), 405
 
@@ -267,10 +266,11 @@ def getAllPosts():
 ###################### Reaction Routes ############################
 
 @app.route('/Pictochat/post/react', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 @is_logged_in
 def reactPost():
     if request.method == 'POST':
-        # User.registerActivity()
+        User.registerActivity()
         result = Post.reactPost(request.json)
         return result
     else:
@@ -298,7 +298,8 @@ def getPostDislikesCountByID(post_id):
 ###################### Participant Routes ######################
 
 @app.route('/Pictochat/chat/addparticipants', methods=['GET', 'POST'])
-# @is_logged_in
+@cross_origin(supports_credentials=True)
+@is_logged_in
 def addParticipants():
     if request.method == 'POST':
         result = Chat.addParticipants(request.json)
@@ -310,7 +311,8 @@ def addParticipants():
 ###################### Media Routes ######################
 
 @app.route('/Pictochat/post/insertmedia', methods=['GET', 'POST'])
-# @is_logged_in
+@cross_origin(supports_credentials=True)
+@is_logged_in
 def insertMedia():
     if request.method == 'POST':
         result = Post.insertMedia(request.json)
@@ -334,10 +336,11 @@ def getMediaByPostID(post_id):
 ###################### Reply Routes ########################
 
 @app.route('/Pictochat/post/reply', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 @is_logged_in
 def reply():
     if request.method == 'POST':
-        # User.registerActivity()
+        User.registerActivity()
         result = Post.reply(request.json)
         return result
     else:

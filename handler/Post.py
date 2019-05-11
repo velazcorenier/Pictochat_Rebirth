@@ -76,8 +76,8 @@ def createPost(form):
 def reactPost(form):
     # Assumes form contains post_id, react_type
     if form and len(form) >= 2:  # For Debugging
-        # user_id = session['user_id'] //use when session is working
-        user_id = form['user_id']
+        user_id = session['user_id'] #use when session is working
+        #user_id = form['user_id']
         post_id = form['post_id']
         react_date = 'now'
         react_type = form['react_type']
@@ -138,7 +138,8 @@ def reply(form):
     if form and len(form) >= 3:  # For Debugging
         reply_msg = form['reply_msg']
         reply_date = 'now'
-        user_id = form['user_id']  # session['user_id']
+        #user_id = form['user_id']  # 
+        user_id = session['user_id']
         post_id = form['post_id']
 
         if reply_msg and reply_date and user_id and post_id:
