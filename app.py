@@ -68,7 +68,7 @@ def logout():
     return jsonify(LoggedOut='Logged out')
 
 
-#TODO: need query return all users in the system except current_user (logged), and users on his contactList.
+# TODO: need query return all users in the system except current_user (logged), and users on his contactList.
 @app.route('/Pictochat/users/all', methods=['GET'])
 def getAllUsers():
     if request.method == 'GET':
