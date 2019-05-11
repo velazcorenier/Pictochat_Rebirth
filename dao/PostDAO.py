@@ -52,7 +52,6 @@ class PostDAO:
 
         return result
 
-
     ###################### Reaction DAO ############################
 
     def reactPost(self, user_id, post_id, react_date, react_type):
@@ -68,9 +67,9 @@ class PostDAO:
                 query = 'DELETE FROM React WHERE user_id = %s and post_id = %s RETURNING post_id;'
                 cursor.execute(query, (user_id, post_id))
                 result = cursor.fetchone()['post_id']
-            if result['react_type'] != int(react_type):
+            elif result['react_type'] != int(react_type):
                 # If it's a dislike, change to like
-                query = 'UPDATE React SET react_type=%s WHERE user_id = %s and post_id =%s RETURNING post_id;'  
+                query = 'UPDATE React SET react_type=%s WHERE user_id = %s and post_id =%s RETURNING post_id;'
                 cursor.execute(query, (react_type, user_id, post_id))
                 result = cursor.fetchone()['post_id']
         else:
@@ -84,9 +83,10 @@ class PostDAO:
 
         return result
 
+    # TODO: Convert to dictionary
     def getPostLikesCountByID(self, post_id):
         cursor = self.conn.cursor()
-        query = "select post_id, count(*) from React where post_id = %s and react_type = 1 group by post_id;"
+        query = "select post_id, count(*) as likes from React where post_id = %s and react_type = 1 group by post_id;"
         cursor.execute(query, (post_id,))
         result = []
 
@@ -95,9 +95,10 @@ class PostDAO:
 
         return result
 
+    # TODO: Convert to dictionary
     def getPostDislikesCountByID(self, post_id):
         cursor = self.conn.cursor()
-        query = "select post_id, count(*) from React where post_id = %s and react_type = -1 group by post_id;"
+        query = "select post_id, count(*) as dislikes from React where post_id = %s and react_type = -1 group by post_id;"
         cursor.execute(query, (post_id,))
         result = []
 
@@ -141,7 +142,6 @@ class PostDAO:
 
         return result
 
-
     def getRepliesByPostID(self, post_id):
         cursor = self.conn.cursor()
         query = '''select reply_id, reply_msg, reply_date, username 
@@ -164,7 +164,7 @@ class PostDAO:
         cursor.close()
 
         return result
-    
+
     def getMediaByPostID(self, post_id):
         cursor = self.conn.cursor()
         query = "select * from Media;"

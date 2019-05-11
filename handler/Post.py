@@ -4,9 +4,11 @@ from handler import DictBuilder as Dict
 
 # temporary
 from dao.UserDAO import UserDAO
+
 userDao = UserDAO()
 
 dao = PostDAO()
+
 
 ###################### Main HANDLER ############################
 
@@ -19,6 +21,7 @@ def getAllPost():
         result.append(Dict.post_dict(row))
     return jsonify(Posts=result)
 
+
 def getPostsByChatID(chat_id):
     chat_post_messages = dao.getPostsByChatID(chat_id)
     if not chat_post_messages:
@@ -27,7 +30,8 @@ def getPostsByChatID(chat_id):
     for row in chat_post_messages:
         result = Dict.post_msg_chat_dict_UI(row)
         result_post_messages.append(result)
-    return jsonify(PostsInChat = result_post_messages)
+    return jsonify(PostsInChat=result_post_messages)
+
 
 def getPostsByChatIDForUI(chat_id):
     chat_post_messages = dao.getPostsByChatID(chat_id)
@@ -36,7 +40,8 @@ def getPostsByChatIDForUI(chat_id):
         result_post_messages.append(Dict.post_msg_chat_dict_UI_2(row, getRepliesByPostIDForUI(row[1]),
                                                                  getUsersLikedByPostId(row[1]),
                                                                  getUsersDislikedByPostId(row[1])))
-    return jsonify(PostsInChat = result_post_messages)
+    return jsonify(PostsInChat=result_post_messages)
+
 
 def createPost(form):
     # Assumes form contains post_msg, user_id, chat_id
@@ -70,7 +75,7 @@ def createPost(form):
 
 def reactPost(form):
     # Assumes form contains post_id, react_type
-    if form and len(form) >= 2: # For Debugging
+    if form and len(form) >= 2:  # For Debugging
         # user_id = session['user_id'] //use when session is working
         user_id = form['user_id']
         post_id = form['post_id']
@@ -86,8 +91,8 @@ def reactPost(form):
             result['react_date'] = react_date
             result['react_type'] = react_type
             result['username'] = userDao.getUserCredentials(user_id)['username']
-            result['totalLikes'] = getPostLikesCountByID(post_id)['likes']
-            result['totalDislikes'] = getPostDislikesCountByID(post_id)['getUsersDislikedByPostId']
+            result['totalLikes'] = dao.getPostLikesCountByID(post_id)[0][1]
+            result['totalDislikes'] = dao.getPostDislikesCountByID(post_id)[0][1]
 
             return jsonify(React=result), 201
         else:
@@ -115,22 +120,26 @@ def getPostDislikesCountByID(post_id):
     map_result["dislikes"] = result[0][1]
     return jsonify(PostDislikes=map_result)
 
+
 def getUsersLikedByPostId(post_id):
     result = dao.getUsersLikedPostByID(post_id)
     return result
+
+
 def getUsersDislikedByPostId(post_id):
     result = dao.getUsersDislikedPostByID(post_id)
     return result
+
 
 ###################### Reply HANDLER ############################
 
 def reply(form):
     # Assumes form contains reply_msg, user_id, post_id
-    if form and len(form) >= 3: # For Debugging
+    if form and len(form) >= 3:  # For Debugging
         reply_msg = form['reply_msg']
         reply_date = 'now'
-        user_id = form['user_id'] # session['user_id']
-        post_id = form['post_id'] 
+        user_id = form['user_id']  # session['user_id']
+        post_id = form['post_id']
 
         if reply_msg and reply_date and user_id and post_id:
             reply = dao.reply(reply_msg, reply_date, user_id, post_id)
@@ -141,13 +150,15 @@ def reply(form):
             result['reply_msg'] = reply_msg
             result['reply_date'] = reply_date
             result['user_id'] = user_id
+            result['reply_username'] = userDao.getUserCredentials(user_id)['username']
             result['post_id'] = post_id
-            
+
             return jsonify(Reply=result), 201
         else:
             return jsonify(Error='Malformed POST request'), 400
     else:
         return jsonify(Error='Malformed POST request'), 400
+
 
 def getRepliesByPostID(post_id):
     replies_info = dao.getRepliesByPostID(post_id)
@@ -159,12 +170,14 @@ def getRepliesByPostID(post_id):
         result_replies.append(result)
     return jsonify(Replies=result_replies)
 
+
 def getRepliesByPostIDForUI(post_id):
     replies_info = dao.getRepliesByPostID(post_id)
     result_replies = []
     for row in replies_info:
         result_replies.append(Dict.reply_dict(row))
     return result_replies
+
 
 ###################### Media HANDLER ############################
 
@@ -190,6 +203,7 @@ def insertMedia(form):
     else:
         return jsonify(Error='Malformed POST request'), 400
 
+
 def getMediaByPostID(post_id):
     media_info = dao.getMediaByPostID(post_id)
     if not media_info:
@@ -213,6 +227,7 @@ def insertHashtag(post_msg, post_id):
                 tag = tag.lower()
                 dao.insertHashtag(tag, post_id)
 
+
 ###################### Dashboard HANDLER ############################
 
 def getTrendingHashtags():
@@ -223,6 +238,7 @@ def getTrendingHashtags():
         tophashtags.append(result)
     return jsonify(Hashtags=tophashtags)
 
+
 def getPostPerDay():
     postsPerDay = dao.getPostPerDay()
     result_list = []
@@ -232,6 +248,7 @@ def getPostPerDay():
         result_list.append(result)
 
     return jsonify(PostsPerDay=result_list)
+
 
 def getRepliesPerDay():
     repliesPerDay = dao.getRepliesPerDay()
