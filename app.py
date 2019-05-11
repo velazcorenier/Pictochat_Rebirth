@@ -16,7 +16,9 @@ CORS(app, supports_credentials=True)
 
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'pictochat'
-#Session(app)
+
+
+# Session(app)
 
 
 # Check if user is logged in
@@ -30,6 +32,7 @@ def is_logged_in(f):
             return jsonify(Error="Unauthorized, please log in."), 404
 
     return wrap
+
 
 @app.route('/Pictochat')  # OK
 def homeforApp():
@@ -63,7 +66,7 @@ def logout():
     return jsonify(LoggedOut='Logged out')
 
 
-#TODO: need query return all users in the system except current_user (logged), and users on his contactList.
+# TODO: need query return all users in the system except current_user (logged), and users on his contactList.
 @app.route('/Pictochat/users/all', methods=['GET'])
 def getAllUsers():
     if request.method == 'GET':
@@ -248,7 +251,7 @@ def getPostsByChatID(chat_id):
 def createPost():
     if request.method == 'POST':
         # User.registerActivity()
-        return Post.createPost(request.form)
+        return Post.createPost(request.form, request.files['file'])
     return jsonify(Error="Method not allowed"), 405
 
 

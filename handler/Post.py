@@ -43,7 +43,7 @@ def getPostsByChatIDForUI(chat_id):
     return jsonify(PostsInChat=result_post_messages)
 
 
-def createPost(form):
+def createPost(form, file):
     # Assumes form contains post_msg, user_id, chat_id
     if form and len(form) == 3:
         post_msg = form['post_msg']
