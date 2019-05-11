@@ -48,7 +48,7 @@ def getPostsByChatIDForUI(chat_id):
 
 def createPost(form, file, path):
     # Assumes form contains post_msg, user_id, chat_id
-    if form and file and len(form) == 3:
+    if form and file and len(form) >= 3:
         post_msg = form['post_msg']
         post_date = 'now'
         user_id = session['user_id']
@@ -98,9 +98,9 @@ def createPost(form, file, path):
 
 def reactPost(form):
     # Assumes form contains post_id, react_type
+    print(form)
     if form and len(form) >= 2:  # For Debugging
-        user_id = session['user_id'] #use when session is working
-        #user_id = form['user_id']
+        user_id = session['user_id'] 
         post_id = form['post_id']
         react_date = 'now'
         react_type = form['react_type']
@@ -114,8 +114,12 @@ def reactPost(form):
             result['react_date'] = react_date
             result['react_type'] = react_type
             result['username'] = userDao.getUserCredentials(user_id)['username']
-            result['totalLikes'] = dao.getPostLikesCountByID(post_id)[0][1]
-            result['totalDislikes'] = dao.getPostDislikesCountByID(post_id)[0][1]
+
+            totalLikes = dao.getPostLikesCountByID(post_id)['likes']
+            result['totalLikes'] = totalLikes if totalLikes else 0
+
+            totalDislikes = dao.getPostDislikesCountByID(post_id)['dislikes']
+            result['totalDislikes'] = totalDislikes if totalDislikes else 0
 
             return jsonify(React=result), 201
         else:
@@ -128,20 +132,14 @@ def getPostLikesCountByID(post_id):
     result = dao.getPostLikesCountByID(post_id)
     if not result:
         return jsonify(Error="No Like found"), 404
-    map_result = dict()
-    map_result["post_id"] = result[0][0]
-    map_result["likes"] = result[0][1]
-    return jsonify(PostLikes=map_result)
+    return jsonify(PostLikes=result)
 
 
 def getPostDislikesCountByID(post_id):
     result = dao.getPostDislikesCountByID(post_id)
     if not result:
         return jsonify(Error="No Dislike found"), 404
-    map_result = dict()
-    map_result["post_id"] = result[0][0]
-    map_result["dislikes"] = result[0][1]
-    return jsonify(PostDislikes=map_result)
+    return jsonify(PostDislikes=result)
 
 # No se va a usar
 def getUsersLikedByPostId(post_id):
@@ -161,7 +159,6 @@ def reply(form):
     if form and len(form) >= 3:  # For Debugging
         reply_msg = form['reply_msg']
         reply_date = 'now'
-        #user_id = form['user_id']  # 
         user_id = session['user_id']
         post_id = form['post_id']
 

@@ -203,7 +203,7 @@ def getUserContactsByID(user_id):
 def createChat():
     if request.method == 'POST':
         User.registerActivity()
-        return Chat.createChat(request)
+        return Chat.createChat(request.json)
     return jsonify(Error="Method not allowed."), 405
 
 

@@ -37,7 +37,6 @@ def createChat(form):
     # Assumes form contains chat_name, admin
     if form and len(form) >= 2: # == 2
         chat_name = form['chat_name']
-        #admin = form['admin'] # 
         admin = session['user_id']
 
         if admin and chat_name:

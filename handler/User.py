@@ -9,7 +9,7 @@ dao = UserDAO()
 
 def register(form):
     # Assumes form contains username, password, first_name, last_name, email, phone
-    if form and len(form) == 6:
+    if form and len(form) >= 6:
         username = form['username']
         password = form['password']
         first_name = form['first_name']
@@ -37,7 +37,7 @@ def register(form):
 
 
 def login(form):
-    if form and len(form) == 2:
+    if form and len(form) >= 2:
         username = form['username']
         password_candidate = form['password']
 

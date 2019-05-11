@@ -83,27 +83,19 @@ class PostDAO:
 
         return result
 
-    # TODO: Convert to dictionary
     def getPostLikesCountByID(self, post_id):
-        cursor = self.conn.cursor()
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = "select post_id, count(*) as likes from React where post_id = %s and react_type = 1 group by post_id;"
         cursor.execute(query, (post_id,))
-        result = []
-
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchone()
 
         return result
 
-    # TODO: Convert to dictionary
     def getPostDislikesCountByID(self, post_id):
-        cursor = self.conn.cursor()
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = "select post_id, count(*) as dislikes from React where post_id = %s and react_type = -1 group by post_id;"
         cursor.execute(query, (post_id,))
-        result = []
-
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchone()
 
         return result
 
