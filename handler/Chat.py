@@ -42,6 +42,12 @@ def createChat(form):
         if admin and chat_name:
             chat_id = dao.createChat(chat_name, admin)
 
+            # Add admin to chat participants
+            form = {}
+            form['chat_id'] = chat_id
+            form['participants'] = [admin]
+            addParticipants(form)
+
             result = {}
             result['chat_id'] = chat_id
             result['chat_name'] = chat_name

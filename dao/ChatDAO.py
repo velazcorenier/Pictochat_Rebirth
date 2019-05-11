@@ -70,7 +70,6 @@ class ChatDAO:
         query = "INSERT INTO Participant(chat_id, user_id) VALUES (%s, %s) RETURNING chat_id;"
         cursor.execute(query, (chat_id, user_id,))
 
-        print('HERE')
         result = cursor.fetchone()['chat_id']
         self.conn.commit()
 
