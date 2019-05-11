@@ -63,6 +63,7 @@ def logout():
     return jsonify(LoggedOut='Logged out')
 
 
+#TODO: need query return all users in the system except current_user (logged), and users on his contactList.
 @app.route('/Pictochat/users/all', methods=['GET'])
 def getAllUsers():
     if request.method == 'GET':
@@ -79,6 +80,7 @@ def getAllUsersNotSession():
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/users/<int:user_id>', methods=['GET'])
 def getUserByID(user_id):
@@ -182,7 +184,7 @@ def getUserContactsByID(user_id):
         result = User.getUserContactsByID(user_id)
         return result
     elif request.method == 'POST':
-        result = User.addContact(request.json)
+        result = User.addContacts(request.json)
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
@@ -195,7 +197,7 @@ def getUserContactsByID(user_id):
 @is_logged_in
 def createChat():
     if request.method == 'POST':
-        User.registerActivity()
+        # User.registerActivity()
         return Chat.createChat(request.json)
     return jsonify(Error="Method not allowed."), 405
 
@@ -292,10 +294,11 @@ def getPostDislikesCountByID(post_id):
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 ###################### Participant Routes ######################
 
 @app.route('/Pictochat/chat/addparticipants', methods=['GET', 'POST'])
-@is_logged_in
+# @is_logged_in
 def addParticipants():
     if request.method == 'POST':
         result = Chat.addParticipants(request.json)
@@ -303,16 +306,18 @@ def addParticipants():
     else:
         return jsonify(Error="Method not allowed"), 405
 
+
 ###################### Media Routes ######################
 
 @app.route('/Pictochat/post/insertmedia', methods=['GET', 'POST'])
-@is_logged_in
+# @is_logged_in
 def insertMedia():
     if request.method == 'POST':
         result = Post.insertMedia(request.json)
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/post/<int:post_id>/media', methods=['GET', 'POST'])
 def getMediaByPostID(post_id):
@@ -337,6 +342,7 @@ def reply():
         return result
     else:
         return jsonify(Error="Method not allowed"), 405
+
 
 @app.route('/Pictochat/post/<int:post_id>/replies', methods=['GET'])
 def getRepliesByPostID(post_id):
