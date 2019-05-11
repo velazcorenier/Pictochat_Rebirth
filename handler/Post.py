@@ -49,6 +49,9 @@ def createPost(form):
         if post_msg and post_date and user_id and chat_id:
             post_id = dao.createPost(post_msg, post_date, user_id, chat_id)
 
+            # Register Hashtags
+            insertHashtag(post_msg, post_id)
+
             result = {}
             result['post_id'] = post_id
             result['post_msg'] = post_msg
@@ -83,6 +86,8 @@ def reactPost(form):
             result['react_date'] = react_date
             result['react_type'] = react_type
             result['username'] = userDao.getUserCredentials(user_id)['username']
+            result['totalLikes'] = getPostLikesCountByID(post_id)['likes']
+            result['totalDislikes'] = getPostDislikesCountByID(post_id)['getUsersDislikedByPostId']
 
             return jsonify(React=result), 201
         else:
@@ -128,9 +133,12 @@ def reply(form):
         post_id = form['post_id'] 
 
         if reply_msg and reply_date and user_id and post_id:
-            reply_id, reply_date = dao.reply(reply_msg, reply_date, user_id, post_id)
+            reply = dao.reply(reply_msg, reply_date, user_id, post_id)
+            reply_id, reply_date = reply['reply_id'], reply['reply_date']
+
 
             result = {}
+            result['reply_id'] = reply_id
             result['reply_msg'] = reply_msg
             result['reply_date'] = reply_date
             result['user_id'] = user_id
@@ -192,6 +200,19 @@ def getMediaByPostID(post_id):
         result = Dict.media_dict(row)
         result_media.append(result)
     return jsonify(Media=result_media)
+
+
+###################### Hashtag HANDLER ############################
+
+def insertHashtag(post_msg, post_id):
+    # Assumes form has post_msg, post_id
+    if post_msg and post_id:
+        tags = [tag.strip("#") for tag in post_msg.split() if tag.startswith("#")]
+
+        for tag in tags:
+            if tag:
+                tag = tag.lower()
+                dao.insertHashtag(tag, post_id)
 
 ###################### Dashboard HANDLER ############################
 

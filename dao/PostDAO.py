@@ -67,16 +67,18 @@ class PostDAO:
                 # If reaction is the same, remove
                 query = 'DELETE FROM React WHERE user_id = %s and post_id = %s RETURNING post_id;'
                 cursor.execute(query, (user_id, post_id))
+                result = cursor.fetchone()['post_id']
             if result['react_type'] != int(react_type):
                 # If it's a dislike, change to like
-                query = 'UPDATE React SET react_type=%s WHERE user_id = %s and post_id =%s RETURNING post_id'  
+                query = 'UPDATE React SET react_type=%s WHERE user_id = %s and post_id =%s RETURNING post_id;'  
                 cursor.execute(query, (react_type, user_id, post_id))
+                result = cursor.fetchone()['post_id']
         else:
             # Reaction not in table
             query = 'INSERT INTO React(user_id, post_id, react_date, react_type) VALUES (%s, %s, %s, %s) RETURNING post_id;'
             cursor.execute(query, (user_id, post_id, react_date, react_type,))
+            result = cursor.fetchone()['post_id']
 
-        result = cursor.fetchone()['post_id']
         self.conn.commit()
         cursor.close()
 
@@ -133,7 +135,7 @@ class PostDAO:
         query = 'INSERT INTO Reply(reply_msg, reply_date, user_id, post_id) VALUES (%s, %s, %s, %s) RETURNING reply_id, reply_date;'
         cursor.execute(query, (reply_msg, reply_date, user_id, post_id,))
 
-        result = cursor.fetchone()['reply_id'], cursor.fetchone()['reply_date']
+        result = cursor.fetchone()
         self.conn.commit()
         cursor.close()
 
@@ -171,6 +173,19 @@ class PostDAO:
 
         for row in cursor:
             result.append(row)
+
+        return result
+
+    ###################### Hashtag DAO ############################
+
+    def insertHashtag(self, hashtag_text, post_id):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO Hashtag(hashtag_text, post_id) VALUES (%s, %s) RETURNING hashtag_id;'
+        cursor.execute(query, (hashtag_text, post_id,))
+
+        result = cursor.fetchone()['hashtag_id']
+        self.conn.commit()
+        cursor.close()
 
         return result
 
