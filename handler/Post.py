@@ -128,7 +128,7 @@ def reply(form):
         post_id = form['post_id'] 
 
         if reply_msg and reply_date and user_id and post_id:
-            reply_id = dao.reply(reply_msg, reply_date, user_id, post_id)
+            reply_id, reply_date = dao.reply(reply_msg, reply_date, user_id, post_id)
 
             result = {}
             result['reply_msg'] = reply_msg
