@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, session, flash
-from flask_cors import CORS
+from flask_session import Session
+from flask_cors import CORS, cross_origin
 from functools import wraps
 from handler import Chat
 from handler import Post
@@ -11,10 +12,11 @@ postDao = PostDAO()
 userDao = UserDAO()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'pictochat'
+#Session(app)
 
 
 # Check if user is logged in
@@ -28,7 +30,6 @@ def is_logged_in(f):
             return jsonify(Error="Unauthorized, please log in."), 404
 
     return wrap
-
 
 @app.route('/Pictochat')  # OK
 def homeforApp():
@@ -55,7 +56,7 @@ def login():
 
 # Logout
 @app.route('/Pictochat/users/logout')
-# @is_logged_in
+@is_logged_in
 def logout():
     session.clear()
     flash("You are now logged out.", "success")
@@ -192,7 +193,8 @@ def getUserContactsByID(user_id):
 ###################### Chat Routes ############################
 
 @app.route('/Pictochat/chats/new', methods=['GET', 'POST'])
-# @is_logged_in
+@cross_origin(supports_credentials=True)
+@is_logged_in
 def createChat():
     if request.method == 'POST':
         # User.registerActivity()
@@ -242,7 +244,7 @@ def getPostsByChatID(chat_id):
 ###################### Post Routes ########################
 
 @app.route('/Pictochat/post/new', methods=['GET', 'POST'])
-# @is_logged_in
+@is_logged_in
 def createPost():
     if request.method == 'POST':
         # User.registerActivity()
@@ -265,7 +267,7 @@ def getAllPosts():
 ###################### Reaction Routes ############################
 
 @app.route('/Pictochat/post/react', methods=['GET', 'POST'])
-# @is_logged_in
+@is_logged_in
 def reactPost():
     if request.method == 'POST':
         # User.registerActivity()
@@ -332,7 +334,7 @@ def getMediaByPostID(post_id):
 ###################### Reply Routes ########################
 
 @app.route('/Pictochat/post/reply', methods=['GET', 'POST'])
-# @is_logged_in
+@is_logged_in
 def reply():
     if request.method == 'POST':
         # User.registerActivity()
@@ -436,4 +438,4 @@ def getTopThreeActiveUsers():
 
 
 if __name__ == '__main__':
-    app.run('localhost')
+    app.run()
