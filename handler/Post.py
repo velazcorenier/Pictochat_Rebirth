@@ -57,7 +57,8 @@ def createPost(form, file, path):
         chat_id = form['chat_id']
 
         if post_msg and post_date and user_id and chat_id:
-            post_id = dao.createPost(post_msg, post_date, user_id, chat_id)
+            post = dao.createPost(post_msg, post_date, user_id, chat_id)
+            post_id, post_date = post['post_id'], post['post_date']
 
             # Register Hashtags
             insertHashtag(post_msg, post_id)
@@ -68,14 +69,25 @@ def createPost(form, file, path):
             file.save(os.path.join(os.getcwd(), file_path[1:]))
 
             # Register in Media table
-            insertMedia(post_id, 'P', file_path)
+            media = insertMedia(post_id, 'P', file_path)
 
             result = {}
-            result['post_id'] = post_id
-            result['post_msg'] = post_msg
-            result['post_date'] = post_date
-            result['user_id'] = user_id
-            result['chat_id'] = chat_id
+            # result['post_id'] = post_id
+            # result['post_msg'] = post_msg
+            # result['post_date'] = post_date
+            # result['user_id'] = user_id
+            # result['chat_id'] = chat_id
+            result['chatId'] = chat_id
+            result['postID'] = post_id
+            result['createdById'] = user_id
+            result['username'] = userDao.getUserCredentials(user_id)['username']
+            result['postMsg'] = post_msg
+            result['postDate'] = post_date
+            result['mediaId'] = media['media_id']
+            result['mediaLocation'] = media['location']
+            result['likes'] = dao.getPostLikesCountByID(post_id)[0][1]
+            result['dislikes'] = dao.getPostDislikesCountByID(post_id)[0][1]
+            result['replies'] = getRepliesByPostIDForUI(post_id)
 
             return jsonify(Post=result), 201
         else:
@@ -206,7 +218,7 @@ def insertMedia(post_id, media_type, location):
         result['media_type'] = media_type
         result['location'] = location
 
-        return jsonify(Media=result), 201
+        return result
     else:
         return jsonify(Error='Malformed POST request'), 400
 

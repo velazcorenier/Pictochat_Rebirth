@@ -43,10 +43,10 @@ class PostDAO:
 
     def createPost(self, post_msg, post_date, user_id, chat_id):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        query = 'INSERT INTO Post(post_msg, post_date, user_id, chat_id) VALUES (%s, %s, %s, %s) RETURNING post_id;'
+        query = 'INSERT INTO Post(post_msg, post_date, user_id, chat_id) VALUES (%s, %s, %s, %s) RETURNING post_id, post_date;'
         cursor.execute(query, (post_msg, post_date, user_id, chat_id,))
 
-        result = cursor.fetchone()['post_id']
+        result = cursor.fetchone()
         self.conn.commit()
         cursor.close()
 
