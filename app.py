@@ -296,7 +296,7 @@ def getPostDislikesCountByID(post_id):
 ###################### Participant Routes ######################
 
 @app.route('/Pictochat/chat/addparticipants', methods=['GET', 'POST'])
-@is_logged_in
+# @is_logged_in
 def addParticipants():
     if request.method == 'POST':
         result = Chat.addParticipants(request.json)
@@ -308,7 +308,7 @@ def addParticipants():
 ###################### Media Routes ######################
 
 @app.route('/Pictochat/post/insertmedia', methods=['GET', 'POST'])
-@is_logged_in
+# @is_logged_in
 def insertMedia():
     if request.method == 'POST':
         result = Post.insertMedia(request.json)
