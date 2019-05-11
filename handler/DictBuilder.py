@@ -152,9 +152,10 @@ def reaction_user_dict(joinReaction):
     # user_id, first_name, last_name, react_date
     reaction_user = {}
     reaction_user["user_id"] = joinReaction[0]
-    reaction_user["first_name"] = joinReaction[1]
-    reaction_user["last_name"] = joinReaction[2]
-    reaction_user["react_date"] = joinReaction[3]
+    reaction_user["username"] = joinReaction[1]
+    reaction_user["first_name"] = joinReaction[2]
+    reaction_user["last_name"] = joinReaction[3]
+    reaction_user["react_date"] = joinReaction[4]
     return reaction_user
 
 def hashtag_dict(postHashtag):
