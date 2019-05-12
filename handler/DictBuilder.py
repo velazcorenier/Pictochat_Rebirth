@@ -126,8 +126,9 @@ def chat_participants_dict(chatParticipant):
     # chat_id, user_id
     chat_participants = {}
     chat_participants["user_id"] = chatParticipant[0]
-    chat_participants["first_name"] = chatParticipant[1]
-    chat_participants["last_name"] = chatParticipant[2]
+    chat_participants["username"] = chatParticipant[1]
+    chat_participants["first_name"] = chatParticipant[2]
+    chat_participants["last_name"] = chatParticipant[3]
     return chat_participants
 
 

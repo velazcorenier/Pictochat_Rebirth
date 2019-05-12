@@ -49,7 +49,7 @@ class UserDAO:
 
     def getUsersByChatID(self, chat_id):
         cursor = self.conn.cursor()
-        query = "select user_id, first_name, last_name from users natural join participant where chat_id = %s;"
+        query = "select user_id, username, first_name, last_name from users natural join participant natural inner join credential where chat_id = %s;"
         cursor.execute(query, (chat_id,))
         result = []
         for row in cursor:
