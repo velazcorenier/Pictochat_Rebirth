@@ -37,8 +37,9 @@ class UserDAO:
 
     def getUserContactsByID(self, user_id):
         cursor = self.conn.cursor()
-        query = "select C.contact_id, U.first_name, U.last_name from ContactList as C, users as U where C.user_id = %s " \
-                "and U.user_id = C.contact_id"
+        query = '''select C.contact_id, CD.username ,U.first_name, U.last_name 
+        from ContactList as C, users as U, credential as CD where C.user_id = %s and
+          U.user_id = C.contact_id and U.user_id = CD.user_id;'''
 
         cursor.execute(query, (user_id,))
         result = []

@@ -40,8 +40,9 @@ def contacts_dict(userContact):
     # contact_id, first_name, last_name
     contacts = {}
     contacts["contact_id"] = userContact[0]
-    contacts["first_name"] = userContact[1]
-    contacts["last_name"] = userContact[2]
+    contacts["username"] = userContact[1]
+    contacts["first_name"] = userContact[2]
+    contacts["last_name"] = userContact[3]
     return contacts
 
 
