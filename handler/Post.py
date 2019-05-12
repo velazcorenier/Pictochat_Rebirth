@@ -70,11 +70,7 @@ def createPost(form, file, path):
             media = insertMedia(post_id, 'P', file_path)
 
             result = {}
-            # result['post_id'] = post_id
-            # result['post_msg'] = post_msg
-            # result['post_date'] = post_date
-            # result['user_id'] = user_id
-            # result['chat_id'] = chat_id
+
             result['chatId'] = chat_id
             result['postID'] = post_id
             result['createdById'] = user_id
