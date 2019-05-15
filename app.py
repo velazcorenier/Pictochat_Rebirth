@@ -16,7 +16,7 @@ CORS(app, supports_credentials=True)
 
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'pictochat'
-app.config['UPLOAD_FOLDER'] = 'https://drive.google.com/drive/folders/1exCBuSPhtlZKUPwkhAiDVx0W3Zrh9fmW/static'
+app.config['UPLOAD_FOLDER'] = '/static'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 # Check if user is logged in
