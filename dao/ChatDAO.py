@@ -24,9 +24,9 @@ class ChatDAO:
         return result
 
     def getChatByID(self, chat_id):
-        cursor = self.conn.cursor()
-        query = "select C.chat_id, C.chat_name, C.admin, U.first_name, U.last_name from users as U, chat as C where C.chat_id = %s and" \
-                " U.user_id = C.admin;"
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = "select C.chat_id, C.chat_name, C.admin, CR.username, U.first_name, U.last_name from users as U, chat as C, credential as CR where C.chat_id = %s and" \
+                " U.user_id = C.admin and CR.user_id = C.admin;"
         cursor.execute(query, (chat_id,))
         result = cursor.fetchone()
 
