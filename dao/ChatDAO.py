@@ -19,6 +19,8 @@ class ChatDAO:
         result = []
         for row in cursor:
             result.append(row)
+
+        cursor.close()    
         return result
 
     def getChatByID(self, chat_id):
@@ -27,6 +29,8 @@ class ChatDAO:
                 " U.user_id = C.admin;"
         cursor.execute(query, (chat_id,))
         result = cursor.fetchone()
+
+        cursor.close()
         return result
 
     def getChatByUserID(self, user_id):
@@ -37,6 +41,8 @@ class ChatDAO:
 
         for row in cursor:
             result.append(row)
+
+        cursor.close()
         return result
 
     def createChat(self, chat_name, admin):
@@ -46,5 +52,26 @@ class ChatDAO:
 
         result = cursor.fetchone()['chat_id']
         self.conn.commit()
+
+        cursor.close()
+        return result
+
+    def getParticipants(self, chat_id):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = "SELECT P.user_id, U.first_name, U.last_name FROM Participant as P, Users as U WHERE P.user_id=U.user_id and chat_id=%s;"
+        cursor.execute(query, (chat_id,))
+        result = cursor.fetchall()
+
+        cursor.close()
+        return result
+
+    def addParticipant(self, chat_id, user_id):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = "INSERT INTO Participant(chat_id, user_id) VALUES (%s, %s) RETURNING chat_id;"
+        cursor.execute(query, (chat_id, user_id,))
+
+        result = cursor.fetchone()['chat_id']
+        self.conn.commit()
+
         cursor.close()
         return result

@@ -8,6 +8,7 @@ def user_dict(userInfo):
     user["phone"] = userInfo[4]
     return user
 
+
 def credential_dict(userCredential):
     # username, password, user_id
     credential = {}
@@ -15,6 +16,7 @@ def credential_dict(userCredential):
     credential["password"] = userCredential[1]
     credential["user_id"] = userCredential[2]
     return credential
+
 
 def activity_dict(userActivity):
     # activity_id, user_id, activity_date, activity_time
@@ -24,6 +26,7 @@ def activity_dict(userActivity):
     activity["activity_date"] = userActivity[2]
     return activity
 
+
 def contactList_dict(userContactList):
     # user_id, contact_id
     contactList = {}
@@ -31,14 +34,17 @@ def contactList_dict(userContactList):
     contactList["contact_id"] = userContactList[1]
     return contactList
 
-#Dict used for demo
+
+# Dict used for demo
 def contacts_dict(userContact):
     # contact_id, first_name, last_name
     contacts = {}
-    contacts["contact_id"] = userContact[0]
-    contacts["first_name"] = userContact[1]
-    contacts["last_name"] = userContact[2]
+    contacts["user_id"] = userContact[0]
+    contacts["username"] = userContact[1]
+    contacts["first_name"] = userContact[2]
+    contacts["last_name"] = userContact[3]
     return contacts
+
 
 def chat_dict(chatInfo):
     # chat_id, chat_name, admin
@@ -47,6 +53,7 @@ def chat_dict(chatInfo):
     chat["chat_name"] = chatInfo[1]
     chat["admin"] = chatInfo[2]
     return chat
+
 
 def chatUI_dict(chatInfo):
     # chat_id, chat_name, admin
@@ -58,7 +65,8 @@ def chatUI_dict(chatInfo):
     chat["last_name"] = chatInfo[4]
     return chat
 
-#Dict use for demo
+
+# Dict use for demo
 def post_msg_chat_dict(postChatInfo):
     # chat_id, chat_name, admin
     post_chat = {}
@@ -69,7 +77,8 @@ def post_msg_chat_dict(postChatInfo):
     post_chat["last_name"] = postChatInfo[4]
     return post_chat
 
-#Dict use for UI
+
+# Dict use for UI
 def post_msg_chat_dict_UI(postChatInfo):
     # chat_id, chat_name, admin
     post_chat_UI = {}
@@ -85,7 +94,8 @@ def post_msg_chat_dict_UI(postChatInfo):
     post_chat_UI["dislikes"] = postChatInfo[9]
     return post_chat_UI
 
-def post_msg_chat_dict_UI_2(postChatInfo, replies, likedBy, dislikedBy):
+
+def post_msg_chat_dict_UI_2(postChatInfo, replies):
     # chat_id, chat_name, admin
     post_chat_UI = {}
     post_chat_UI["chatId"] = postChatInfo[0]
@@ -99,9 +109,9 @@ def post_msg_chat_dict_UI_2(postChatInfo, replies, likedBy, dislikedBy):
     post_chat_UI["likes"] = postChatInfo[8]
     post_chat_UI["dislikes"] = postChatInfo[9]
     post_chat_UI["replies"] = replies
-    post_chat_UI["likedBy"] = likedBy
-    post_chat_UI["dislikedBy"] = dislikedBy
+
     return post_chat_UI
+
 
 def participants_dict(chatParticipant):
     # chat_id, user_id
@@ -110,16 +120,19 @@ def participants_dict(chatParticipant):
     participant["user_id"] = chatParticipant[1]
     return participant
 
-#Dict used for demo
+
+# Dict used for demo
 def chat_participants_dict(chatParticipant):
     # chat_id, user_id
     chat_participants = {}
     chat_participants["user_id"] = chatParticipant[0]
-    chat_participants["first_name"] = chatParticipant[1]
-    chat_participants["last_name"] = chatParticipant[2]
+    chat_participants["username"] = chatParticipant[1]
+    chat_participants["first_name"] = chatParticipant[2]
+    chat_participants["last_name"] = chatParticipant[3]
     return chat_participants
 
-#Dict used for demo
+
+# Dict used for demo
 def chat_admin_dict(chatAdmin):
     # chat_id, user_id
     admin = {}
@@ -127,6 +140,7 @@ def chat_admin_dict(chatAdmin):
     admin["first_name"] = chatAdmin[1]
     admin["last_name"] = chatAdmin[2]
     return admin
+
 
 def post_dict(chatPost):
     # post_id, post_msg, post_date, post_time, user_id, chat_id
@@ -138,6 +152,7 @@ def post_dict(chatPost):
     post["chat_id"] = chatPost[4]
     return post
 
+
 def reaction_dict(postReaction):
     # user_id, post_id, react_date, react_time, react_type
     reaction = {}
@@ -147,15 +162,18 @@ def reaction_dict(postReaction):
     reaction["react_type"] = postReaction[2]
     return reaction
 
-#Dict used for demo
+
+# Dict used for demo
 def reaction_user_dict(joinReaction):
     # user_id, first_name, last_name, react_date
     reaction_user = {}
     reaction_user["user_id"] = joinReaction[0]
-    reaction_user["first_name"] = joinReaction[1]
-    reaction_user["last_name"] = joinReaction[2]
-    reaction_user["react_date"] = joinReaction[3]
+    reaction_user["username"] = joinReaction[1]
+    reaction_user["first_name"] = joinReaction[2]
+    reaction_user["last_name"] = joinReaction[3]
+    reaction_user["react_date"] = joinReaction[4]
     return reaction_user
+
 
 def hashtag_dict(postHashtag):
     # hashtag_id, hashtag_text, post_id
@@ -165,12 +183,14 @@ def hashtag_dict(postHashtag):
     hashtag["post_id"] = postHashtag[2]
     return hashtag
 
+
 def dashboard_hashtag_dict(postHashtag):
     # hashtag_text
     hashtag = {}
     hashtag["hashtag_text"] = postHashtag[0]
     hashtag["Total"] = postHashtag[1]
     return hashtag
+
 
 def media_dict(postMedia):
     # media_id, post_id, media_type, location
@@ -181,6 +201,7 @@ def media_dict(postMedia):
     media["location"] = postMedia[3]
     return media
 
+
 def reply_dict(postReply):
     # reply_id, reply_msg, reply_date, reply_time, user_id, post_id
     reply = {}
@@ -190,11 +211,10 @@ def reply_dict(postReply):
     reply["reply_username"] = postReply[3]
     return reply
 
+
 def post_per_day_dict(post):
     # reply_id, reply_msg, reply_date, reply_time, user_id, post_id
     postPerDay = {}
     postPerDay["day"] = post[0]
     postPerDay["total"] = post[1]
     return postPerDay
-
-

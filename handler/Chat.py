@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, session
 from dao.ChatDAO import ChatDAO
 from handler import DictBuilder as Dict
 
@@ -35,12 +35,18 @@ def getChatByUserID(user_id):
 
 def createChat(form):
     # Assumes form contains chat_name, admin
-    if form and len(form) == 2:
+    if form and len(form) >= 2: # == 2
         chat_name = form['chat_name']
-        admin = form['admin']
+        admin = session['user_id']
 
         if admin and chat_name:
             chat_id = dao.createChat(chat_name, admin)
+
+            # Add admin to chat participants
+            form = {}
+            form['chat_id'] = chat_id
+            form['participants'] = [admin]
+            addParticipants(form)
 
             result = {}
             result['chat_id'] = chat_id
@@ -52,3 +58,23 @@ def createChat(form):
             return jsonify(Error='Malformed POST request')
     else:
         return jsonify(Error='Malformed POST request')
+
+def getParticipants(chat_id):
+    participants = dao.getParticipants(chat_id)
+    if participants:
+        return jsonify(Participants=participants)
+    else:
+        return jsonify(Error="No Participants Found"), 404
+
+def addParticipants(form):
+    # Assumes form containts chat_id, participants(list of user_ids)
+    if form and len(form) >= 2:
+        chat_id = form['chat_id']
+        participants = form['participants']
+
+        for participant in participants:
+            chat_id = dao.addParticipant(chat_id, participant)
+
+        return getParticipants(chat_id)
+    else:
+        return jsonify(Error="No Participants Found"), 404

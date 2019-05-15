@@ -43,51 +43,63 @@ class PostDAO:
 
     def createPost(self, post_msg, post_date, user_id, chat_id):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        query = 'INSERT INTO Post(post_msg, post_date, user_id, chat_id) VALUES (%s, %s, %s, %s) RETURNING post_id;'
+        query = 'INSERT INTO Post(post_msg, post_date, user_id, chat_id) VALUES (%s, %s, %s, %s) RETURNING post_id, post_date;'
         cursor.execute(query, (post_msg, post_date, user_id, chat_id,))
 
-        result = cursor.fetchone()['post_id']
+        result = cursor.fetchone()
         self.conn.commit()
         cursor.close()
 
         return result
 
-
     ###################### Reaction DAO ############################
 
-    def likePost(self, user_id, post_id, react_date, react_type):
+    def reactPost(self, user_id, post_id, react_date, react_type):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        query = 'INSERT INTO React(user_id, post_id, react_date, react_type) VALUES (%s, %s, %s, %s) RETURNING post_id;'
-        cursor.execute(query, (user_id, post_id, react_date, react_type,))
+        query = 'SELECT * FROM React WHERE user_id = %s and post_id = %s'
+        cursor.execute(query, (user_id, post_id))
+        result = cursor.fetchone()
 
-        result = cursor.fetchone()['post_id']
+        if result:
+            # Reaction already in table
+            if result['react_type'] == int(react_type):
+                # If reaction is the same, remove
+                query = 'DELETE FROM React WHERE user_id = %s and post_id = %s RETURNING post_id;'
+                cursor.execute(query, (user_id, post_id))
+                result = cursor.fetchone()['post_id']
+            elif result['react_type'] != int(react_type):
+                # If it's a dislike, change to like
+                query = 'UPDATE React SET react_type=%s WHERE user_id = %s and post_id =%s RETURNING post_id;'
+                cursor.execute(query, (react_type, user_id, post_id))
+                result = cursor.fetchone()['post_id']
+        else:
+            # Reaction not in table
+            query = 'INSERT INTO React(user_id, post_id, react_date, react_type) VALUES (%s, %s, %s, %s) RETURNING post_id;'
+            cursor.execute(query, (user_id, post_id, react_date, react_type,))
+            result = cursor.fetchone()['post_id']
+
         self.conn.commit()
         cursor.close()
 
         return result
 
     def getPostLikesCountByID(self, post_id):
-        cursor = self.conn.cursor()
-        query = "select post_id, count(*) from React where post_id = %s and react_type = 1 group by post_id;"
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = "select post_id, count(*) as likes from React where post_id = %s and react_type = 1 group by post_id;"
         cursor.execute(query, (post_id,))
-        result = []
-
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchone()
 
         return result
 
     def getPostDislikesCountByID(self, post_id):
-        cursor = self.conn.cursor()
-        query = "select post_id, count(*) from React where post_id = %s and react_type = -1 group by post_id;"
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = "select post_id, count(*) as dislikes from React where post_id = %s and react_type = -1 group by post_id;"
         cursor.execute(query, (post_id,))
-        result = []
-
-        for row in cursor:
-            result.append(row)
+        result = cursor.fetchone()
 
         return result
 
+    # No se usa
     def getUsersLikedPostByID(self, post_id):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = "select user_id as userId, username as username from React natural inner join credential where post_id = %s and react_type = 1;"
@@ -99,6 +111,7 @@ class PostDAO:
 
         return result
 
+    # No se usa
     def getUsersDislikedPostByID(self, post_id):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = "select user_id as userId, username as username from React natural inner join credential where post_id = %s and react_type = -1;"
@@ -112,6 +125,17 @@ class PostDAO:
 
     ###################### Replies DAO ############################
 
+    def reply(self, reply_msg, reply_date, user_id, post_id):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO Reply(reply_msg, reply_date, user_id, post_id) VALUES (%s, %s, %s, %s) RETURNING reply_id, reply_date;'
+        cursor.execute(query, (reply_msg, reply_date, user_id, post_id,))
+
+        result = cursor.fetchone()
+        self.conn.commit()
+        cursor.close()
+
+        return result
+
     def getRepliesByPostID(self, post_id):
         cursor = self.conn.cursor()
         query = '''select reply_id, reply_msg, reply_date, username 
@@ -124,6 +148,17 @@ class PostDAO:
 
     ###################### Media DAO ############################
 
+    def insertMedia(self, post_id, media_type, location):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO Media(post_id, media_type, location) VALUES (%s, %s, %s) RETURNING media_id;'
+        cursor.execute(query, (post_id, media_type, location,))
+
+        result = cursor.fetchone()['media_id']
+        self.conn.commit()
+        cursor.close()
+
+        return result
+
     def getMediaByPostID(self, post_id):
         cursor = self.conn.cursor()
         query = "select * from Media;"
@@ -132,6 +167,19 @@ class PostDAO:
 
         for row in cursor:
             result.append(row)
+
+        return result
+
+    ###################### Hashtag DAO ############################
+
+    def insertHashtag(self, hashtag_text, post_id):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = 'INSERT INTO Hashtag(hashtag_text, post_id) VALUES (%s, %s) RETURNING hashtag_id;'
+        cursor.execute(query, (hashtag_text, post_id,))
+
+        result = cursor.fetchone()['hashtag_id']
+        self.conn.commit()
+        cursor.close()
 
         return result
 
